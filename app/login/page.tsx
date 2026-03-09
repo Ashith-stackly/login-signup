@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { FaEnvelope, FaLock } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { login as loginApi } from "@/lib/api";
 
@@ -29,6 +29,7 @@ export default function LoginPage() {
   const [form, setForm] = useState<LoginFormState>(initialLoginState);
   const [errors, setErrors] = useState<LoginFormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const validate = (values: LoginFormState): LoginFormErrors => {
     const newErrors: LoginFormErrors = {};
@@ -43,8 +44,8 @@ export default function LoginPage() {
 
     if (!values.password) {
       newErrors.password = "Password is required.";
-    } else if (values.password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters.";
+    } else if (values.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters.";
     }
 
     return newErrors;
@@ -98,124 +99,97 @@ export default function LoginPage() {
     }
   };
   return (
-    <div className="h-screen bg-white flex items-stretch justify-center px-6">
-      {/* MAIN CONTAINER */}
-      <div className="w-full max-w-6xl flex flex-col lg:flex-row items-stretch justify-between gap-12">
-        {/* LEFT SIDE IMAGE (login illustration) */}
-        <div className="w-full lg:w-1/2 flex items-center justify-center py-10 lg:py-0">
+    <div className="min-h-screen bg-white flex items-center justify-center px-4 sm:px-6 py-6">
+      <div className="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-center gap-4 sm:gap-6 lg:gap-10 auth-layout">
+        <div className="w-full lg:w-1/2 flex items-center justify-center py-4 sm:py-6 lg:py-0 order-2 lg:order-1">
           <img
             src="/login.png"
             alt="Secure login illustration"
-            className="w-[85%] sm:w-[70%] lg:w-[90%] max-w-[550px] object-contain"
+            className="auth-image w-[85%] sm:w-[70%] lg:w-[90%] max-w-[550px] object-contain"
           />
         </div>
 
-        {/* RIGHT SIDE CARD */}
-        <div className="w-full lg:w-1/2 flex items-stretch justify-center">
-          {/* Outer blue block */}
+        <div className="w-full lg:w-1/2 flex items-center justify-center order-1 lg:order-2">
           <div
             className="
-            relative
-            overflow-hidden
-            w-full 
-            max-w-[520px]
-            lg:h-full
-            bg-gradient-to-b
-            from-[#5f82e8]
-            via-[#3f66c9]
-            to-[#021a46]
-            rounded-[10px]
-            px-10
+            relative overflow-hidden w-full max-w-[520px]
+            min-h-0 lg:min-h-[min(85vh,720px)]
+            max-h-[min(95vh,900px)]
+            bg-gradient-to-b from-[#5f82e8] via-[#3f66c9] to-[#021a46]
+            rounded-[10px] px-6 sm:px-10 flex flex-col
           "
           >
-            {/* Inner panel effect: blended center + only side depth (no top/bottom border) */}
             <div className="pointer-events-none absolute inset-y-0 left-1/2 w-[78%] -translate-x-1/2 bg-gradient-to-b from-white/10 via-black/10 to-black/35" />
             <div className="pointer-events-none absolute inset-0 rounded-[10px] shadow-[inset_20px_0_45px_rgba(0,0,0,0.55),inset_-20px_0_45px_rgba(0,0,0,0.55)]" />
             <div className="pointer-events-none absolute inset-0 rounded-[10px] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.25)]" />
 
-            <div className="relative z-10 h-full px-10 pt-20 pb-10 text-white">
-              {/* WELCOME */}
-              <h1 className="font-welcome-heading text-2xl sm:text-3xl text-center font-semibold mb-7">
-                WELCOME
-              </h1>
+            <div className="relative z-10 flex flex-col flex-1 min-h-0 auth-card-content px-4 sm:px-6 pt-8 sm:pt-14 pb-6 sm:pb-10 text-white">
+              <div className="w-full flex justify-center flex-shrink-0">
+                <h1 className="font-welcome-heading text-xl sm:text-2xl md:text-3xl text-center font-semibold mb-4 sm:mb-7">
+                  WELCOME
+                </h1>
+              </div>
 
-              {/* LOGO */}
-              <div className="flex justify-center mb-8">
-                <div
-                  className="
-                  bg-white
-                  w-[180px] sm:w-[220px]
-                  h-[70px] sm:h-[85px]
-                  rounded-[50%]
-                  flex items-center justify-center
-                  shadow-lg
-                  overflow-hidden
-                "
-                >
-                  <img
-                    src="/stackly-logo.png"
-                    alt="Stackly Logo"
-                    className="h-6 sm:h-8 object-contain"
-                  />
+              <div className="flex justify-center mb-4 sm:mb-8 flex-shrink-0">
+                <div className="bg-white w-[160px] sm:w-[180px] lg:w-[200px] h-[60px] sm:h-[70px] lg:h-[80px] rounded-[50%] flex items-center justify-center shadow-lg overflow-hidden">
+                  <img src="/stackly-logo.png" alt="Stackly Logo" className="h-5 sm:h-6 lg:h-8 object-contain" />
                 </div>
               </div>
 
-              {/* FORM */}
               <form onSubmit={handleLogin} noValidate>
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6 flex-shrink-0">
                   <div className="flex flex-col">
                     <div className="flex items-center border-b border-white/60 pb-2">
                       <FaEnvelope className="mr-4 text-sm opacity-80" />
                       <input
                         type="email"
-                        placeholder="Email ID"
+                        placeholder="Email"
                         value={form.email}
                         onChange={handleChange("email")}
                         className="bg-transparent outline-none w-full placeholder-white text-sm"
                         aria-invalid={!!errors.email}
-                        aria-describedby={
-                          errors.email ? "login-email-error" : undefined
-                        }
+                        aria-describedby={errors.email ? "login-email-error" : undefined}
                       />
                     </div>
                     {errors.email && (
-                      <p
-                        id="login-email-error"
-                        className="mt-1 text-xs text-red-300"
-                      >
+                      <p id="login-email-error" className="auth-error-text mt-1">
                         {errors.email}
                       </p>
                     )}
                   </div>
 
                   <div className="flex flex-col">
-                    <div className="flex items-center border-b border-white/60 pb-2">
+                    <div className="flex items-center border-b border-white/60 pb-2 relative">
                       <FaLock className="mr-4 text-sm opacity-80" />
                       <input
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         placeholder="Password"
                         value={form.password}
                         onChange={handleChange("password")}
-                        className="bg-transparent outline-none w-full placeholder-white text-sm"
+                        className="bg-transparent outline-none w-full placeholder-white text-sm pr-10"
                         aria-invalid={!!errors.password}
-                        aria-describedby={
-                          errors.password ? "login-password-error" : undefined
-                        }
+                        aria-describedby={errors.password ? "login-password-error" : undefined}
                       />
+                      {/[a-zA-Z0-9]/.test(form.password) && (
+                        <button
+                          type="button"
+                          aria-label="Toggle password visibility"
+                          className="absolute right-0 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-1"
+                          onClick={() => setShowPassword((p) => !p)}
+                        >
+                          {showPassword ? <FaEyeSlash className="text-sm" /> : <FaEye className="text-sm" />}
+                        </button>
+                      )}
                     </div>
                     {errors.password && (
-                      <p
-                        id="login-password-error"
-                        className="mt-1 text-xs text-red-300"
-                      >
+                      <p id="login-password-error" className="auth-error-text mt-1">
                         {errors.password}
                       </p>
                     )}
                   </div>
                 </div>
 
-                {/* REMEMBER / FORGOT */}
-                <div className="flex items-center justify-between mt-4 text-xs opacity-90">
+                <div className="flex items-center justify-between mt-4 text-xs opacity-90 flex-shrink-0">
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input
                       type="checkbox"
@@ -225,55 +199,35 @@ export default function LoginPage() {
                     />
                     <span>Remember me</span>
                   </label>
-                  <button
-                    type="button"
-                    className="text-[11px] text-sky-200 hover:text-sky-100"
+                  <Link
+                    href="/forgot-password"
+                    className="forgot-password-link"
                   >
                     Forgot Password?
-                  </button>
+                  </Link>
                 </div>
 
                 {errors.form && (
                   <p
-                    className={`mt-3 text-xs ${errors.form === "Login successful!" ? "text-green-300" : "text-red-300"}`}
+                    className={`mt-3 text-xs font-medium ${errors.form === "Login successful!" ? "text-green-300" : "auth-error-text"}`}
                   >
                     {errors.form}
                   </p>
                 )}
 
-                {/* LOGIN BUTTON */}
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="
-                    mt-8
-                    w-full
-                    h-[45px]
-                    bg-gradient-to-r
-                    from-[#2d8cf0]
-                    to-[#5a78c7]
-                    rounded-md
-                    text-sm
-                    font-medium
-                    shadow-md
-                    hover:opacity-90
-                    transition
-                    disabled:opacity-60
-                    disabled:cursor-not-allowed
-                  "
+                  className="mt-8 w-full h-[45px] bg-gradient-to-r from-[#2d8cf0] to-[#5a78c7] rounded-md text-sm font-medium shadow-md hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed flex-shrink-0"
                 >
                   {isSubmitting ? "Checking..." : "Login"}
                 </button>
               </form>
 
-              {/* SIGNUP LINK */}
-              <p className="text-center text-xs mt-4 text-red-300 opacity-90">
+              <p className="text-center text-xs mt-3 text-white opacity-90 flex-shrink-0">
                 Don&apos;t have an account?{" "}
-                <Link
-                  href="/signup"
-                  className="text-white cursor-pointer hover:text-yellow-300"
-                >
-                  SignUp
+                <Link href="/signup" className="text-yellow-400 hover:text-yellow-300 font-medium">
+                  Sign Up
                 </Link>
               </p>
             </div>

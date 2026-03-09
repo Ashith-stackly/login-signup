@@ -25,9 +25,101 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Display font for WELCOME heading to closely match Figma */
+/* Display font for WELCOME heading - generous letter spacing like design */
 .font-welcome-heading {
   font-family: "Times New Roman", Georgia, serif;
-  letter-spacing: 0.55em;
+  letter-spacing: 0.35em;
   font-weight: 600;
+  text-align: center;
+}
+
+@media (max-width: 400px) {
+  .font-welcome-heading {
+    text-align: center;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    display: block;
+  }
+  .auth-card-content {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+
+/* Error text - sufficient contrast on dark blue background */
+.auth-error-text {
+  font-size: 12px;
+  color: #ff6b6b;
+  font-weight: 500;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+/* Forgot Password link - visibility and accessibility (WB_009) */
+.forgot-password-link {
+  font-size: 15px;
+  color: #93c5fd;
+  font-weight: 500;
+}
+.forgot-password-link:hover {
+  color: #bfdbfe;
+}
+
+/* Auth layout - responsive spacing */
+.auth-card-content {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Signup page: no scroll, everything visible */
+.signup-card .auth-card-content {
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .auth-layout {
+    gap: 1rem;
+    min-height: auto;
+  }
+  .auth-card-content {
+    padding-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .auth-layout {
+    gap: 0.5rem;
+  }
+  .auth-card-content {
+    gap: 0.5rem;
+  }
+}
+
+/* Mobile + 150% zoom: prevent overlap (WB_012) */
+@media (max-width: 420px) {
+  .auth-layout {
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  .auth-card-content {
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 768px) and (min-resolution: 1.5dppx) {
+  .auth-card-content > * {
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Image clarity when zooming */
+.auth-image {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Forgot password form - placeholder light grey to match design */
+.forgot-input::placeholder {
+  color: #cccccc;
 }

@@ -99,7 +99,7 @@ export default function LoginPage() {
     }
   };
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-4 sm:px-6 py-6">
+    <div className="login-page min-h-screen bg-white flex items-center justify-center px-4 sm:px-6 py-6">
       <div className="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-center gap-4 sm:gap-6 lg:gap-10 auth-layout">
         <div className="w-full lg:w-1/2 flex items-center justify-center py-4 sm:py-6 lg:py-0 order-2 lg:order-1">
           <img

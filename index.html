@@ -232,6 +232,7 @@
         }
         alert("Signup successful!");
       } catch (e) {
+        history.pushState(null, "", "#error");
         showPage("error");
       }
     }
@@ -275,6 +276,7 @@
         }
         alert("Login successful!");
       } catch (e) {
+        history.pushState(null, "", "#error");
         showPage("error");
       }
     }
@@ -316,6 +318,7 @@
           msgEl.style.color = "#ff6b6b";
         }
       } catch (e) {
+        history.pushState(null, "", "#error");
         showPage("error");
       }
     }
@@ -325,7 +328,7 @@
     //   index.html#signup | index.html#login | index.html#forgot
     //   index.html#verifyEmail | index.html#verifyMobile
     //   index.html#verified | index.html#createNewPassword
-    // Supported: #signup, #login, #forgot, #verifyEmail, #verifyMobile, #verified, #createNewPassword
+    // Supported: #signup, #login, #forgot, #verifyEmail, #verifyMobile, #verified, #createNewPassword, #error
     document.addEventListener("DOMContentLoaded", function () {
       const hash = window.location.hash.replace("#", "");
       if (hash === "signup") showPage("signup");
@@ -334,6 +337,7 @@
       else if (hash === "verifyMobile") showPage("verifyMobile");
       else if (hash === "verified") showPage("verified");
       else if (hash === "createNewPassword") showPage("createNewPassword");
+      else if (hash === "error") showPage("error");
       else showPage("login");
     });
 
@@ -345,6 +349,19 @@
       else if (hash === "verifyMobile") showPage("verifyMobile");
       else if (hash === "verified") showPage("verified");
       else if (hash === "createNewPassword") showPage("createNewPassword");
+      else if (hash === "error") showPage("error");
+      else showPage("login");
+    });
+
+    window.addEventListener("popstate", function () {
+      const hash = window.location.hash.replace("#", "");
+      if (hash === "signup") showPage("signup");
+      else if (hash === "forgot") showPage("forgot");
+      else if (hash === "verifyEmail") showPage("verifyEmail");
+      else if (hash === "verifyMobile") showPage("verifyMobile");
+      else if (hash === "verified") showPage("verified");
+      else if (hash === "createNewPassword") showPage("createNewPassword");
+      else if (hash === "error") showPage("error");
       else showPage("login");
     });
 
@@ -1144,7 +1161,7 @@
       Please try again later.
     </p>
     <button
-      onclick="location.hash='login'; showPage('login')"
+      onclick="if (window.history.length > 1) { history.back(); } else { location.hash='login'; showPage('login'); }"
       class="mt-6 px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
     >
       Go Back

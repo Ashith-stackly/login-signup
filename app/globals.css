@@ -168,6 +168,13 @@ input[type="password"]::-ms-reveal {
   display: block;
 }
 
+/* Mobile: widen inner light panel on 375/425 widths */
+@media (min-width: 360px) and (max-width: 500px) {
+  .auth-inner-panel {
+    width: 86% !important;
+  }
+}
+
 /* Desktop/tablet browsers: split leftover vertical space evenly (prevents bigger bottom gap) */
 @media (min-width: 768px) {
   .auth-page {

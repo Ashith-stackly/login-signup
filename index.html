@@ -148,6 +148,13 @@
       display: block;
     }
 
+    /* Mobile: widen inner light panel on 375/425 widths */
+    @media (min-width: 360px) and (max-width: 500px) {
+      .auth-inner-panel {
+        width: 86% !important;
+      }
+    }
+
     /* Desktop/tablet browsers: split leftover vertical space evenly (prevents bigger bottom gap) */
     @media (min-width: 768px) {
       .auth-page {
@@ -884,6 +891,7 @@
         <div class="relative overflow-hidden w-full max-w-[520px] bg-gradient-to-b from-[#5f82e8] via-[#3f66c9] to-[#021a46] rounded-[10px] px-6 sm:px-10 flex flex-col auth-form-card">
           <div
             class="
+              auth-inner-panel
               pointer-events-none
               absolute
               inset-y-0
@@ -1082,6 +1090,7 @@
         <div class="relative overflow-hidden w-full max-w-[520px] bg-gradient-to-b from-[#5f82e8] via-[#3f66c9] to-[#021a46] rounded-[10px] px-6 sm:px-10 flex flex-col login-card auth-form-card">
           <div
             class="
+              auth-inner-panel
               pointer-events-none
               absolute
               inset-y-0

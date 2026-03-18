@@ -256,7 +256,7 @@
         height: 100dvh;
         min-height: 100dvh;
         max-height: none;
-        overflow-y: auto;
+        overflow: hidden; /* no scroll on mobile */
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
         padding-top: 0 !important;
@@ -275,8 +275,8 @@
       .auth-form-card {
         width: 100%;
         max-width: 360px;
-        min-height: min(560px, 100dvh);
-        height: 100%;
+        height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+        min-height: 0;
         max-height: none;
         display: flex;
         flex-direction: column;

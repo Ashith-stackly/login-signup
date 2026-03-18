@@ -251,7 +251,7 @@ input[type="password"]::-ms-reveal {
     height: 100dvh;
     min-height: 100dvh;
     max-height: none;
-    overflow: visible;
+    overflow: hidden; /* no scroll on mobile */
     overflow-x: hidden;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
@@ -269,8 +269,8 @@ input[type="password"]::-ms-reveal {
   .auth-form-card {
     width: 100%;
     max-width: 360px;       /* same width on login & signup */
-    min-height: min(560px, 100dvh);
-    height: 100%;
+    height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    min-height: 0;
     max-height: none;
     display: flex;
     flex-direction: column;

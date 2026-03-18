@@ -104,6 +104,14 @@
       overflow: hidden;
     }
 
+    /* Mobile: no scrollbar inside card – content stays in inner box */
+    @media (max-width: 1023px) {
+      .auth-form-card .auth-card-content,
+      .auth-form-card .signup-card-content {
+        overflow: hidden !important;
+      }
+    }
+
     .auth-image-col {
       min-width: 0;
       max-width: 100%;
@@ -160,7 +168,9 @@
         margin-left: auto;
         margin-right: auto;
         min-width: 0;
-        overflow: hidden;
+        overflow: hidden !important;
+        overflow-x: hidden !important;
+        overflow-y: hidden !important;
         box-sizing: border-box;
       }
     }
@@ -351,7 +361,7 @@
       }
     }
 
-    /* Mobile zoom out (62–85%): narrow viewport – keep content inside like 100% zoom */
+    /* Mobile zoom out (62–85%): inner box only, no scrollbar, content fixed inside */
     @media (max-width: 340px) {
       .auth-page {
         padding-left: 0.5rem;
@@ -359,6 +369,20 @@
       }
       .auth-form-card {
         max-width: 100%;
+        overflow: hidden !important;
+      }
+      .auth-inner-panel {
+        width: 86% !important;
+      }
+      #loginPage .login-card-inner,
+      #signupPage .signup-card-content {
+        width: calc(86% + 41.28px);
+        max-width: calc(86% + 41.28px);
+        margin-left: auto;
+        margin-right: auto;
+        min-width: 0;
+        overflow: hidden !important;
+        box-sizing: border-box;
       }
       .auth-card-content,
       .auth-form-card .signup-card-content,

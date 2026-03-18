@@ -114,10 +114,19 @@ input[type="password"]::-ms-reveal {
   text-underline-offset: 3px;
 }
 
-/* Auth layout - responsive spacing */
+/* Auth layout - responsive spacing (desktop can scroll inside card if needed) */
 .auth-card-content {
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+/* Mobile: no scrollbar inside card – only outer page scroll; content stays in inner box */
+@media (max-width: 1023px) {
+  .auth-card-content,
+  .auth-form-card .auth-card-content,
+  .auth-form-card .signup-card-content {
+    overflow: hidden !important;
+  }
 }
 
 /* Prevent inputs from overflowing on narrow/zoomed viewports */
@@ -173,7 +182,7 @@ input[type="password"]::-ms-reveal {
   .auth-inner-panel {
     width: 86% !important;
   }
-  /* Match content width to inner panel: 86% of card (content area is card minus px-6 padding) */
+  /* Content matches inner panel width; everything stays inside inner box */
   .login-card-inner,
   .signup-card-content {
     width: calc(86% + 41.28px);
@@ -181,7 +190,9 @@ input[type="password"]::-ms-reveal {
     margin-left: auto;
     margin-right: auto;
     min-width: 0;
-    overflow: hidden;
+    overflow: hidden !important;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
     box-sizing: border-box;
   }
 }
@@ -356,7 +367,7 @@ input[type="password"]::-ms-reveal {
   }
 }
 
-/* Mobile zoom out (62–85%): narrow viewport – keep content inside like 100% zoom */
+/* Mobile zoom out (62–85%): narrow viewport – inner box only, no scrollbar, content fixed inside */
 @media (max-width: 340px) {
   .auth-page {
     padding-left: 0.5rem;
@@ -364,6 +375,20 @@ input[type="password"]::-ms-reveal {
   }
   .auth-form-card {
     max-width: 100%;
+    overflow: hidden !important;
+  }
+  .auth-inner-panel {
+    width: 86% !important;
+  }
+  .login-card-inner,
+  .signup-card-content {
+    width: calc(86% + 41.28px);
+    max-width: calc(86% + 41.28px);
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 0;
+    overflow: hidden !important;
+    box-sizing: border-box;
   }
   .auth-card-content,
   .auth-form-card .signup-card-content,

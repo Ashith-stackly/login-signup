@@ -156,15 +156,15 @@
       display: block;
     }
 
-    /* Mobile: inner panel = 86% of card; content must match so it sits inside the inner box */
-    @media (max-width: 500px) {
+    /* Mobile/tablet: content width = inner strip (78% of card) */
+    @media (max-width: 1023px) {
       .auth-inner-panel {
-        width: 86% !important;
+        width: 78% !important;
       }
       #loginPage .login-card-inner,
       #signupPage .signup-card-content {
-        width: calc(86% + 41.28px);
-        max-width: calc(86% + 41.28px);
+        width: calc(78% + 37.44px);
+        max-width: calc(78% + 37.44px);
         margin-left: auto;
         margin-right: auto;
         min-width: 0;
@@ -172,6 +172,25 @@
         overflow-x: hidden !important;
         overflow-y: hidden !important;
         box-sizing: border-box;
+      }
+      #loginPage .login-card-inner form,
+      #signupPage .signup-card-content form,
+      #loginPage .login-card-inner button[type="submit"],
+      #signupPage .signup-card-content button[type="submit"] {
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+      #loginPage .login-card-inner .flex,
+      #signupPage .signup-card-content .flex {
+        min-width: 0;
+        max-width: 100%;
+      }
+    }
+    @media (min-width: 640px) and (max-width: 1023px) {
+      #loginPage .login-card-inner,
+      #signupPage .signup-card-content {
+        width: calc(78% + 62.4px);
+        max-width: calc(78% + 62.4px);
       }
     }
 
@@ -370,19 +389,6 @@
       .auth-form-card {
         max-width: 100%;
         overflow: hidden !important;
-      }
-      .auth-inner-panel {
-        width: 86% !important;
-      }
-      #loginPage .login-card-inner,
-      #signupPage .signup-card-content {
-        width: calc(86% + 41.28px);
-        max-width: calc(86% + 41.28px);
-        margin-left: auto;
-        margin-right: auto;
-        min-width: 0;
-        overflow: hidden !important;
-        box-sizing: border-box;
       }
       .auth-card-content,
       .auth-form-card .signup-card-content,

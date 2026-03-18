@@ -177,16 +177,21 @@ input[type="password"]::-ms-reveal {
   display: block;
 }
 
-/* Mobile: inner panel = 86% of card; content must match so it sits inside the “inner box” */
-@media (max-width: 500px) {
+/*
+ * Mobile/tablet: inner light strip = 78% of card (matches .auth-inner-panel in markup).
+ * Content must use the same width (78% of card = calc relative to padded content area)
+ * so fields/buttons never extend past the inner box. Previously only ≤500px was
+ * constrained, so viewports 501–1023px showed full-width content spilling past 78%.
+ */
+@media (max-width: 1023px) {
   .auth-inner-panel {
-    width: 86% !important;
+    width: 78% !important;
   }
-  /* Content matches inner panel width; everything stays inside inner box */
   .login-card-inner,
   .signup-card-content {
-    width: calc(86% + 41.28px);
-    max-width: calc(86% + 41.28px);
+    /* 78% of card; px-6 → 48px padding: 0.78×48 = 37.44 */
+    width: calc(78% + 37.44px);
+    max-width: calc(78% + 37.44px);
     margin-left: auto;
     margin-right: auto;
     min-width: 0;
@@ -194,6 +199,27 @@ input[type="password"]::-ms-reveal {
     overflow-x: hidden !important;
     overflow-y: hidden !important;
     box-sizing: border-box;
+  }
+  .login-card-inner form,
+  .signup-card-content form,
+  .login-card-inner button[type="submit"],
+  .signup-card-content button[type="submit"] {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .login-card-inner .flex,
+  .signup-card-content .flex {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+/* Card uses sm:px-10 (80px) from 640px – match inner box width */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .login-card-inner,
+  .signup-card-content {
+    width: calc(78% + 62.4px);
+    max-width: calc(78% + 62.4px);
   }
 }
 
@@ -376,19 +402,6 @@ input[type="password"]::-ms-reveal {
   .auth-form-card {
     max-width: 100%;
     overflow: hidden !important;
-  }
-  .auth-inner-panel {
-    width: 86% !important;
-  }
-  .login-card-inner,
-  .signup-card-content {
-    width: calc(86% + 41.28px);
-    max-width: calc(86% + 41.28px);
-    margin-left: auto;
-    margin-right: auto;
-    min-width: 0;
-    overflow: hidden !important;
-    box-sizing: border-box;
   }
   .auth-card-content,
   .auth-form-card .signup-card-content,

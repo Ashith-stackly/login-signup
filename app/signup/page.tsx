@@ -39,6 +39,7 @@ export default function SignupPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isNarrowMobile, setIsNarrowMobile] = useState(false);
 
   useEffect(() => {
     const mql = window.matchMedia("(min-width: 1024px)");
@@ -51,6 +52,14 @@ export default function SignupPage() {
       mql.removeEventListener("change", setOverflow);
       document.body.style.overflow = "";
     };
+  }, []);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(max-width: 420px)");
+    const update = () => setIsNarrowMobile(mql.matches);
+    update();
+    mql.addEventListener("change", update);
+    return () => mql.removeEventListener("change", update);
   }, []);
 
   const validate = (values: SignupFormState): SignupFormErrors => {
@@ -277,14 +286,14 @@ export default function SignupPage() {
                   </div>
 
                   <div className="flex flex-col">
-                    <div className="flex items-center border-b border-white/80 pb-2 relative min-w-0">
+                    <div className="flex items-center border-b border-white/80 pb-2 relative">
                       <FaLock className="mr-3 text-sm text-white/90 flex-shrink-0" />
                       <input
                         type={showConfirmPassword ? "text" : "password"}
-                        placeholder="Confirm Password"
+                        placeholder={isNarrowMobile ? "Confirm password" : "Confirm Password"}
                         value={form.confirmPassword}
                         onChange={handleChange("confirmPassword")}
-                        className="bg-transparent outline-none flex-1 min-w-0 placeholder-white/90 text-sm text-white pr-9"
+                        className="bg-transparent outline-none w-full placeholder-white/90 text-sm text-white pr-9"
                         aria-invalid={!!errors.confirmPassword}
                         aria-describedby={errors.confirmPassword ? "confirmPassword-error" : undefined}
                       />

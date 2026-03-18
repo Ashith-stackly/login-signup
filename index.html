@@ -98,9 +98,6 @@
 
     .auth-card-content input {
       min-width: 0;
-      max-width: 100%;
-      text-overflow: ellipsis;
-      overflow: hidden;
     }
 
     #signupPage .auth-card-content {
@@ -513,6 +510,15 @@
   <script>
     const BACKEND_BASE_URL = "http://localhost:5000";
 
+    function updateMobilePlaceholders() {
+      var narrow = window.innerWidth <= 420;
+      var loginEmail = document.getElementById("loginEmail");
+      if (loginEmail) loginEmail.placeholder = narrow ? "Email / Mobile" : "Email or Mobile number";
+
+      var signupConfirm = document.getElementById("signupConfirmPassword");
+      if (signupConfirm) signupConfirm.placeholder = narrow ? "Confirm password" : "Confirm Password";
+    }
+
     function showPage(page) {
       var pages = ["signup", "login", "error", "forgot", "verifyEmail", "verifyMobile", "verified", "createNewPassword"];
       pages.forEach(function (key) {
@@ -523,7 +529,12 @@
       if (active) active.classList.remove("hidden");
       var isAuth = (page === "login" || page === "signup");
       document.body.style.overflow = isAuth && window.innerWidth >= 1024 ? "hidden" : "";
+      updateMobilePlaceholders();
     }
+
+    window.addEventListener("resize", function () {
+      updateMobilePlaceholders();
+    });
 
     function validateEmail(email) {
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -1094,13 +1105,13 @@
               </div>
 
               <div>
-                <div id="signupConfirmPasswordWrap" class="flex items-center border-b border-white/80 pb-2 password-toggle-hidden relative min-w-0">
+                <div id="signupConfirmPasswordWrap" class="flex items-center border-b border-white/80 pb-2 password-toggle-hidden relative">
                   <i class="fa-solid fa-lock mr-3 text-sm text-white/90 flex-shrink-0"></i>
                   <input
                     id="signupConfirmPassword"
                     type="password"
                     placeholder="Confirm Password"
-                    class="bg-transparent outline-none flex-1 min-w-0 placeholder-white/90 text-sm text-white pr-9"
+                    class="bg-transparent outline-none w-full placeholder-white/90 text-sm text-white pr-9"
                     oninput="updateSignupConfirmPasswordToggleVisibility()"
                   />
                   <button type="button" aria-label="Toggle confirm password visibility" class="password-toggle-btn absolute right-2 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-1 flex-shrink-0" onclick="toggleSignupConfirmPasswordVisibility()">
@@ -1248,7 +1259,7 @@
                     id="loginEmail"
                     type="text"
                     placeholder="Email or Mobile number"
-                    class="bg-transparent outline-none flex-1 min-w-0 placeholder-white text-sm"
+                    class="bg-transparent outline-none w-full min-w-0 placeholder-white text-sm"
                   />
                 </div>
                 <p id="loginEmailError" class="error-text mt-0.5 text-[11px] sm:text-xs"></p>

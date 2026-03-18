@@ -268,9 +268,9 @@ input[type="password"]::-ms-reveal {
   .auth-form-card {
     width: 100%;
     max-width: 360px;       /* same width on login & signup */
-    /* Professional mobile: card can shrink to content */
+    /* Mobile: taller card for better visual balance */
     height: auto;
-    min-height: 0;
+    min-height: 680px;
     max-height: none;
     display: flex;
     flex-direction: column;
@@ -305,7 +305,7 @@ input[type="password"]::-ms-reveal {
     }
     .auth-form-card {
       height: auto;
-      min-height: 0;
+      min-height: 680px;
     }
   }
 }

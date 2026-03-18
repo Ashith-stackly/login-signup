@@ -238,6 +238,23 @@ input[type="password"]::-ms-reveal {
   }
 }
 
+/* Extreme zoom (≈188–200%): even narrower viewport needs more inner width */
+@media (max-width: 360px) {
+  .auth-inner-panel {
+    width: 92% !important;
+  }
+  /* 92% of card; px-6 → 48px padding: 0.92×48 = 44.16 */
+  .login-card-inner,
+  .signup-card-content {
+    width: calc(92% + 44.16px) !important;
+    max-width: calc(92% + 44.16px) !important;
+  }
+  /* Login email placeholder is the longest string – shrink a touch more */
+  .login-card-inner input::placeholder {
+    font-size: 11px;
+  }
+}
+
 /* Card uses sm:px-10 (80px) from 640px – match inner box width */
 @media (min-width: 640px) and (max-width: 1023px) {
   .login-card-inner,

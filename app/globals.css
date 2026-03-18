@@ -253,13 +253,13 @@ input[type="password"]::-ms-reveal {
 /* Extreme zoom (≈188–200%): even narrower viewport needs more inner width */
 @media (max-width: 360px) {
   .auth-inner-panel {
-    width: 92% !important;
+    width: 100% !important;
   }
   /* 92% of card; px-6 → 48px padding: 0.92×48 = 44.16 */
   .login-card-inner,
   .signup-card-content {
-    width: calc(92% + 44.16px) !important;
-    max-width: 100% !important; /* prevent overflow/crop at extreme zoom */
+    width: 100% !important;
+    max-width: 100% !important;
   }
   /* Login email placeholder is the longest string – shrink a touch more */
   .login-email-input::placeholder {
@@ -281,6 +281,14 @@ input[type="password"]::-ms-reveal {
   }
   .signup-confirm-input {
     padding-right: 1.75rem !important; /* reduce space reserved for eye icon */
+  }
+  /* More usable width: reduce card side padding at extreme zoom */
+  .auth-form-card {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  .login-email-input {
+    padding-right: 0.25rem;
   }
   .font-welcome-heading {
     font-size: 1.05rem;

@@ -263,22 +263,24 @@ input[type="password"]::-ms-reveal {
   }
   /* Login email placeholder is the longest string – shrink a touch more */
   .login-email-input::placeholder {
-    font-size: 9px;
-    letter-spacing: -0.04em;
+    font-size: clamp(8px, 2.8vw, 10px);
+    letter-spacing: -0.06em;
   }
   .signup-confirm-input::placeholder {
-    font-size: 9.5px;
-    letter-spacing: -0.04em;
+    font-size: clamp(8px, 2.9vw, 10px);
+    letter-spacing: -0.06em;
   }
   /* Give the two long placeholders maximum horizontal room */
   .login-email-icon {
     margin-right: 0.375rem !important;
+    font-size: 0.85rem;
   }
   .signup-confirm-icon {
     margin-right: 0.5rem !important;
+    font-size: 0.85rem;
   }
   .signup-confirm-input {
-    padding-right: 2rem !important; /* reduce space reserved for eye icon */
+    padding-right: 1.75rem !important; /* reduce space reserved for eye icon */
   }
   .font-welcome-heading {
     font-size: 1.05rem;

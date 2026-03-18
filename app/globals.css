@@ -253,13 +253,14 @@ input[type="password"]::-ms-reveal {
     overflow: hidden; /* hard stop any mobile scroll */
   }
   .auth-page {
+    --auth-mobile-vpad: clamp(0.5rem, 2vh, 1rem);
     height: 100dvh;
     min-height: 100dvh;
     max-height: none;
     overflow: hidden; /* no scroll on mobile */
     overflow-x: hidden;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+    padding-top: var(--auth-mobile-vpad) !important;
+    padding-bottom: var(--auth-mobile-vpad) !important;
   }
   .auth-page .auth-layout {
     flex: 1;
@@ -274,7 +275,12 @@ input[type="password"]::-ms-reveal {
   .auth-form-card {
     width: 100%;
     max-width: 360px;       /* same width on login & signup */
-    height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    height: calc(
+      100dvh
+      - (2 * var(--auth-mobile-vpad))
+      - env(safe-area-inset-top)
+      - env(safe-area-inset-bottom)
+    );
     min-height: 0;
     max-height: none;
     display: flex;

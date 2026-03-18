@@ -182,7 +182,7 @@ export default function SignupPage() {
               </div>
 
               <form onSubmit={handleSignup} noValidate>
-                <div className="space-y-1.5 sm:space-y-2.5 lg:space-y-3 flex-shrink-0">
+                <div className="space-y-3 sm:space-y-2.5 lg:space-y-3 flex-shrink-0">
                   <div className="flex flex-col">
                     <div className="flex items-center border-b border-white/80 pb-2">
                       <FaUser className="mr-3 text-sm text-white/90" />
@@ -320,7 +320,7 @@ export default function SignupPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="mt-2 w-full h-[42px] flex-shrink-0 bg-gradient-to-r from-[#2d8cf0] to-[#5a78c7] rounded-md text-sm font-medium text-white shadow-md hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="mt-3 mb-2 w-full h-[42px] flex-shrink-0 bg-gradient-to-r from-[#2d8cf0] to-[#5a78c7] rounded-md text-sm font-medium text-white shadow-md hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? "Checking..." : "Sign Up"}
                 </button>

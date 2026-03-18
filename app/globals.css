@@ -255,7 +255,7 @@ input[type="password"]::-ms-reveal {
     max-height: 100dvh;
     padding-top: var(--auth-mobile-vpad);
     padding-bottom: var(--auth-mobile-vpad);
-    overflow-y: auto;
+    overflow: hidden;
     overflow-x: hidden;
   }
   .auth-page .auth-layout {
@@ -277,7 +277,7 @@ input[type="password"]::-ms-reveal {
     flex-direction: column;
     margin-top: 0;
     margin-bottom: 0;
-    overflow: visible;      /* never clip; outer page scroll */
+    overflow: hidden;       /* no scrollbars in mobile */
   }
   .auth-form-card .auth-card-content,
   .auth-form-card .signup-card-content {
@@ -287,7 +287,7 @@ input[type="password"]::-ms-reveal {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    overflow: visible;
+    overflow: hidden;
   }
 
   /* Mobile: remove bottom illustration entirely */

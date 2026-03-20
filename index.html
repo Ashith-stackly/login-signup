@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=10, user-scalable=yes, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stackly Auth</title>
 
   <!-- Tailwind via CDN -->
@@ -341,13 +341,9 @@
         max-height: none;
         padding-top: var(--auth-mobile-vpad);
         padding-bottom: var(--auth-mobile-vpad);
-        /* Allow text-size scaling (+/-) to update layout on iOS Chrome. */
         overflow-y: auto;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
-        /* Allow iOS Chrome "Text size" (+/-) on auth pages */
-        -webkit-text-size-adjust: auto;
-        text-size-adjust: auto;
       }
       .auth-page .auth-layout {
         flex: 1;
@@ -392,39 +388,10 @@
           height: auto;
           min-height: 100svh;
           max-height: none;
-            /* Allow iOS Chrome +/- zoom buttons (text scaling). */
-            -webkit-text-size-adjust: auto;
-            text-size-adjust: auto;
         }
         .auth-form-card {
           height: auto;
           min-height: 680px;
-        }
-      }
-
-      @media (max-width: 360px) {
-        #loginPage .login-email-input,
-        #signupPage .signup-confirm-input {
-          font-size: 12px !important;
-            /* Allow Chrome iOS "Text size" +/- scaling on login/signup pages */
-          -webkit-text-size-adjust: auto;
-          white-space: nowrap;
-        }
-        #loginPage .login-email-input::placeholder {
-          font-size: 7.5px !important;
-          letter-spacing: -0.06em !important;
-        }
-        #signupPage .signup-confirm-input::placeholder {
-          font-size: 8px !important;
-          letter-spacing: -0.08em !important;
-        }
-        #loginPage .login-email-icon {
-          margin-right: 0.25rem !important;
-          font-size: 0.85rem !important;
-        }
-        #signupPage .signup-confirm-icon {
-          margin-right: 0.75rem !important;
-          font-size: 0.85rem !important;
         }
       }
     }
@@ -583,10 +550,7 @@
         min-height: 44px;
       }
       .auth-card-content input {
-        /* Use relative font size so iOS Chrome "Text size" +/- can scale it. */
-        font-size: 1rem;
-        -webkit-text-size-adjust: initial;
-        text-size-adjust: initial;
+        font-size: 16px;
       }
     }
 
@@ -1108,7 +1072,7 @@
   </script>
 
   <!-- ================= SIGNUP PAGE ================= -->
-  <div id="signupPage" class="hidden signup-page auth-page min-h-screen bg-white flex flex-col px-3 sm:px-6 py-3 sm:py-4 overflow-y-auto">
+  <div id="signupPage" class="hidden auth-page min-h-screen bg-white flex flex-col px-3 sm:px-6 py-3 sm:py-4 overflow-y-auto">
     <div class="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-6 sm:gap-6 lg:gap-8 auth-layout">
       <!-- CARD FIRST ON MOBILE (TOP), RIGHT ON DESKTOP -->
       <div class="w-full lg:w-1/2 flex justify-center order-1 lg:order-2">
@@ -1309,7 +1273,7 @@
   </div>
 
   <!-- ================= LOGIN PAGE ================= -->
-  <div id="loginPage" class="login-page auth-page min-h-screen bg-white flex flex-col px-3 sm:px-6 py-3 sm:py-4 overflow-y-auto">
+  <div id="loginPage" class="auth-page min-h-screen bg-white flex flex-col px-3 sm:px-6 py-3 sm:py-4 overflow-y-auto">
     <div class="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-6 sm:gap-6 lg:gap-8 auth-layout">
       <!-- CARD FIRST ON MOBILE (TOP), RIGHT ON DESKTOP -->
       <div class="w-full lg:w-1/2 flex justify-center order-1 lg:order-2">

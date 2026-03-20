@@ -42,13 +42,6 @@ input[type="password"]::-ms-reveal {
 .auth-page {
   -webkit-overflow-scrolling: touch;
 }
-@media (max-width: 1023px) {
-  /* Allow iOS Chrome "Text size" (+/-) on auth pages */
-  .auth-page {
-    -webkit-text-size-adjust: auto;
-    text-size-adjust: auto;
-  }
-}
 .auth-page .auth-layout,
 .auth-page .auth-layout > * {
   min-width: 0;
@@ -353,8 +346,6 @@ input[type="password"]::-ms-reveal {
     max-height: none;
     padding-top: var(--auth-mobile-vpad);
     padding-bottom: var(--auth-mobile-vpad);
-    /* Allow text-size scaling (+/-) to update layout.
-       iOS Chrome text size sometimes doesn't reflect inside scroll containers. */
     overflow-y: auto;
     overflow-x: hidden;
   }
@@ -403,40 +394,10 @@ input[type="password"]::-ms-reveal {
       height: auto;
       min-height: 100svh;
       max-height: none;
-      /* Allow iOS Chrome +/- zoom buttons (text scaling). */
-      -webkit-text-size-adjust: auto;
-      text-size-adjust: auto;
     }
     .auth-form-card {
       height: auto;
       min-height: 680px;
-    }
-  }
-
-  /* iOS Safari: enforce same narrow/zoom behavior as Android */
-  @media (max-width: 360px) {
-    .login-email-input,
-    .signup-confirm-input {
-      font-size: 12px !important;
-      /* Allow Chrome iOS "Text size" +/- scaling on login/signup pages */
-      -webkit-text-size-adjust: auto;
-      white-space: nowrap;
-    }
-    .login-email-input::placeholder {
-      font-size: 7.5px !important;
-      letter-spacing: -0.06em !important;
-    }
-    .signup-confirm-input::placeholder {
-      font-size: 8px !important;
-      letter-spacing: -0.08em !important;
-    }
-    .login-email-icon {
-      margin-right: 0.25rem !important;
-      font-size: 0.85rem !important;
-    }
-    .signup-confirm-icon {
-      margin-right: 0.75rem !important;
-      font-size: 0.85rem !important;
     }
   }
 }
@@ -454,7 +415,7 @@ input[type="password"]::-ms-reveal {
   .auth-form-card .signup-card-content {
     flex: 1;
     min-height: 0;
-  overflow: hidden;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -616,10 +577,7 @@ input[type="password"]::-ms-reveal {
     min-height: 44px;
   }
   .auth-card-content input {
-    /* Use relative font size so iOS Chrome "Text size" +/- can scale it. */
-    font-size: 1rem;
-    -webkit-text-size-adjust: initial;
-    text-size-adjust: initial;
+    font-size: 16px; /* prevents zoom on focus on iOS */
   }
 }
 

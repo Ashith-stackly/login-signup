@@ -344,6 +344,17 @@
         overflow-y: auto;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
+        /* Allow iOS Chrome "Text size" (+/-) on auth pages */
+        -webkit-text-size-adjust: auto;
+        text-size-adjust: auto;
+      }
+      /* Extra safety: Login/Signup sometimes get stronger iOS text-size rules from inner elements */
+      .login-page,
+      .signup-page,
+      .login-page *,
+      .signup-page * {
+        -webkit-text-size-adjust: auto;
+        text-size-adjust: auto;
       }
       .auth-page .auth-layout {
         flex: 1;

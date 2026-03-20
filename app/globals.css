@@ -182,17 +182,6 @@ input[type="password"]::-ms-reveal {
  * constrained, so viewports 501–1023px showed full-width content spilling past 78%.
  */
 @media (max-width: 1023px) {
-  .auth-page {
-    /* Cover any top/bottom whitespace with the same gradient look */
-    background: linear-gradient(180deg, #5f82e8 0%, #021a46 100%) !important;
-  }
-  body {
-    /* iOS/Android overscroll can reveal the underlying page background */
-    background: linear-gradient(180deg, #5f82e8 0%, #021a46 100%) !important;
-  }
-  html {
-    background: linear-gradient(180deg, #5f82e8 0%, #021a46 100%) !important;
-  }
   .auth-inner-panel {
     width: 78% !important;
   }

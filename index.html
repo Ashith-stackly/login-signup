@@ -108,8 +108,7 @@
     @media (max-width: 1023px) {
       .auth-form-card .auth-card-content,
       .auth-form-card .signup-card-content {
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
+        overflow: visible !important;
       }
     }
 
@@ -169,9 +168,7 @@
         margin-left: auto;
         margin-right: auto;
         min-width: 0;
-        /* zoom up to 200%: keep scrolling inside the card (no outer gaps) */
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
+        overflow: visible !important; /* zoom up to 200%: never clip */
         box-sizing: border-box;
       }
       #loginPage .login-card-inner form,
@@ -293,6 +290,20 @@
         justify-content: center;
       }
     }
+
+    /* Mobile: cover top/bottom whitespace with the same gradient look */
+    @media (max-width: 1023px) {
+      .auth-page {
+        background: linear-gradient(180deg, #5f82e8 0%, #021a46 100%) !important;
+      }
+      body {
+        /* iOS/Android overscroll can reveal the underlying page background */
+        background: linear-gradient(180deg, #5f82e8 0%, #021a46 100%) !important;
+      }
+      html {
+        background: linear-gradient(180deg, #5f82e8 0%, #021a46 100%) !important;
+      }
+    }
     .auth-form-card,
     .auth-form-card .auth-card-content,
     .auth-form-card .signup-card-content {
@@ -338,15 +349,13 @@
     /* Mobile: allow outer (page) scroll so no content is missing, with consistent card size */
     @media (max-width: 1023px) {
       .auth-page {
-        --auth-mobile-vpad: 0px;
+        --auth-mobile-vpad: 40px;
         height: auto;
         min-height: 100svh;
         max-height: none;
-        padding-top: env(safe-area-inset-top);
-        padding-bottom: env(safe-area-inset-bottom);
-        /* Prevent outer page scroll revealing empty space.
-           Inner scrolling happens inside `.auth-card-content` / `.signup-card-content`. */
-        overflow-y: hidden;
+        padding-top: var(--auth-mobile-vpad);
+        padding-bottom: var(--auth-mobile-vpad);
+        overflow-y: auto;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
       }
@@ -354,18 +363,15 @@
         flex: 1;
         min-height: auto;
         max-height: none;
-        gap: 0;
+        gap: 0.75rem;
         max-width: 100%;
-        justify-content: flex-start;
+        justify-content: center;
       }
       .auth-form-card {
         width: 100%;
         max-width: 360px;
         height: auto;
-        min-height: 0;
-        height: calc(
-          100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom)
-        );
+        min-height: 680px;
         max-height: none;
         display: flex;
         flex-direction: column;
@@ -381,8 +387,7 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        overflow-y: auto;
-        overflow-x: hidden;
+        overflow: visible;
       }
 
       /* Mobile: remove bottom illustration entirely */
@@ -397,13 +402,10 @@
           height: auto;
           min-height: 100svh;
           max-height: none;
-          overflow-y: hidden;
         }
         .auth-form-card {
-          height: calc(
-            100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom)
-          );
-          min-height: 0;
+          height: auto;
+          min-height: 680px;
         }
       }
     }

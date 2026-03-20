@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5, user-scalable=yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=10, user-scalable=yes, viewport-fit=cover" />
   <title>Stackly Auth</title>
 
   <!-- Tailwind via CDN -->
@@ -388,7 +388,9 @@
           height: auto;
           min-height: 100svh;
           max-height: none;
-          -webkit-text-size-adjust: 100%;
+            /* Allow iOS Chrome +/- zoom buttons (text scaling). */
+            -webkit-text-size-adjust: auto;
+            text-size-adjust: auto;
         }
         .auth-form-card {
           height: auto;

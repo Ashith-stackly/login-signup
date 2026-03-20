@@ -394,7 +394,9 @@ input[type="password"]::-ms-reveal {
       height: auto;
       min-height: 100svh;
       max-height: none;
-      -webkit-text-size-adjust: 100%;
+      /* Allow iOS Chrome +/- zoom buttons (text scaling). */
+      -webkit-text-size-adjust: auto;
+      text-size-adjust: auto;
     }
     .auth-form-card {
       height: auto;

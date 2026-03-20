@@ -335,12 +335,12 @@
     /* Mobile: allow outer (page) scroll so no content is missing, with consistent card size */
     @media (max-width: 1023px) {
       .auth-page {
-        --auth-mobile-vpad: 40px;
+        --auth-mobile-vpad: 0px;
         height: auto;
         min-height: 100svh;
         max-height: none;
-        padding-top: var(--auth-mobile-vpad);
-        padding-bottom: var(--auth-mobile-vpad);
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
         overflow-y: auto;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
@@ -349,15 +349,18 @@
         flex: 1;
         min-height: auto;
         max-height: none;
-        gap: 0.75rem;
+        gap: 0;
         max-width: 100%;
-        justify-content: center;
+        justify-content: flex-start;
       }
       .auth-form-card {
         width: 100%;
         max-width: 360px;
         height: auto;
-        min-height: 680px;
+        min-height: 0;
+        height: calc(
+          100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+        );
         max-height: none;
         display: flex;
         flex-direction: column;
@@ -373,7 +376,8 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        overflow: visible;
+        overflow-y: auto;
+        overflow-x: hidden;
       }
 
       /* Mobile: remove bottom illustration entirely */

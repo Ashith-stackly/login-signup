@@ -364,7 +364,7 @@ input[type="password"]::-ms-reveal {
 /* Mobile: edge-to-edge feel (no extra top/bottom white bars); scroll only when content overflows */
 @media (max-width: 1023px) {
   .auth-page {
-    /* Safe areas only (notches / home indicator); no arbitrary vertical padding */
+    /* No top/bottom padding here — avoids white strips (bg-white) on Android & iOS */
     --auth-safe-top: env(safe-area-inset-top, 0px);
     --auth-safe-bottom: env(safe-area-inset-bottom, 0px);
     --auth-safe-left: env(safe-area-inset-left, 0px);
@@ -373,8 +373,8 @@ input[type="password"]::-ms-reveal {
     min-height: 100svh;
     min-height: 100dvh;
     max-height: none;
-    padding-top: var(--auth-safe-top);
-    padding-bottom: var(--auth-safe-bottom);
+    padding-top: 0;
+    padding-bottom: 0;
     padding-left: max(0.75rem, var(--auth-safe-left));
     padding-right: max(0.75rem, var(--auth-safe-right));
     overflow-y: auto;
@@ -385,8 +385,8 @@ input[type="password"]::-ms-reveal {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    /* Avoid min(100%, …): on iOS, % height can be wrong when parent is height:auto */
-    min-height: calc(100svh - var(--auth-safe-top) - var(--auth-safe-bottom));
+    min-height: 100svh;
+    min-height: 100dvh;
     max-height: none;
     gap: 0.5rem;
     max-width: 100%;
@@ -408,9 +408,12 @@ input[type="password"]::-ms-reveal {
     max-width: 360px;       /* same width on login & signup */
     align-self: center;
     height: auto;
-    /* At least full usable viewport height (popular app-style full-screen card) */
-    min-height: calc(100svh - var(--auth-safe-top) - var(--auth-safe-bottom));
-    min-height: calc(100dvh - var(--auth-safe-top) - var(--auth-safe-bottom));
+    /* Safe area inside the card (blue) so outer page has no white top/bottom bands */
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    /* Full viewport; padding is inside (border-box) */
+    min-height: 100svh;
+    min-height: 100dvh;
     max-height: none;
     display: flex;
     flex-direction: column;
@@ -448,9 +451,10 @@ input[type="password"]::-ms-reveal {
     }
     .auth-form-card {
       height: auto;
-      /* svh/dvh work on modern iOS; avoids broken fill-available math */
-      min-height: calc(100svh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
-      min-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      /* Match Android: full viewport; safe-area is padding on the card, not subtracted twice */
+      min-height: 100svh;
+      min-height: 100dvh;
+      min-height: -webkit-fill-available;
     }
   }
 }
@@ -596,8 +600,8 @@ input[type="password"]::-ms-reveal {
   .auth-page {
     padding-left: max(0.5rem, env(safe-area-inset-left, 0px));
     padding-right: max(0.5rem, env(safe-area-inset-right, 0px));
-    padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-top: 0;
+    padding-bottom: 0;
   }
   .auth-layout {
     gap: 0.375rem;

@@ -352,7 +352,7 @@
       }
     }
 
-    /* Mobile: edge-to-edge; scroll when content exceeds viewport */
+    /* Mobile: no white top/bottom on outer page; safe-area lives inside blue card */
     @media (max-width: 1023px) {
       .auth-page {
         --auth-safe-top: env(safe-area-inset-top, 0px);
@@ -363,8 +363,8 @@
         min-height: 100svh;
         min-height: 100dvh;
         max-height: none;
-        padding-top: var(--auth-safe-top);
-        padding-bottom: var(--auth-safe-bottom);
+        padding-top: 0;
+        padding-bottom: 0;
         padding-left: max(0.75rem, var(--auth-safe-left));
         padding-right: max(0.75rem, var(--auth-safe-right));
         overflow-y: auto;
@@ -375,7 +375,8 @@
         flex: 1 1 auto;
         display: flex;
         flex-direction: column;
-        min-height: calc(100svh - var(--auth-safe-top) - var(--auth-safe-bottom));
+        min-height: 100svh;
+        min-height: 100dvh;
         max-height: none;
         gap: 0.5rem;
         max-width: 100%;
@@ -394,8 +395,10 @@
         max-width: 360px;
         align-self: center;
         height: auto;
-        min-height: calc(100svh - var(--auth-safe-top) - var(--auth-safe-bottom));
-        min-height: calc(100dvh - var(--auth-safe-top) - var(--auth-safe-bottom));
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        min-height: 100svh;
+        min-height: 100dvh;
         max-height: none;
         display: flex;
         flex-direction: column;
@@ -429,8 +432,9 @@
         }
         .auth-form-card {
           height: auto;
-          min-height: calc(100svh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
-          min-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+          min-height: 100svh;
+          min-height: 100dvh;
+          min-height: -webkit-fill-available;
         }
       }
     }
@@ -556,8 +560,8 @@
       .auth-page {
         padding-left: max(0.5rem, env(safe-area-inset-left, 0px));
         padding-right: max(0.5rem, env(safe-area-inset-right, 0px));
-        padding-top: env(safe-area-inset-top, 0px);
-        padding-bottom: env(safe-area-inset-bottom, 0px);
+        padding-top: 0;
+        padding-bottom: 0;
       }
       .auth-layout {
         gap: 0.375rem;

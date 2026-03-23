@@ -21,9 +21,8 @@
 
 html {
   height: 100%;
+  /* Prevent horizontal rubber-band showing “empty” on iOS */
   overflow-x: hidden;
-  /* Match body so iOS rubber-band doesn’t flash a different tone at edges */
-  background: var(--background);
 }
 
 body {
@@ -36,12 +35,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Mobile auth: limit rubber-band so iOS doesn’t reveal endless white past the page */
-@media (max-width: 1023px) {
-  body {
-    overscroll-behavior-y: none;
-  }
-}
+/* iOS: avoid html/body -webkit-fill-available — stacks with .auth-page min-height and adds extra scroll */
 
 /* Hide browser's native password reveal (e.g. Edge) so only our single eye shows */
 input[type="password"]::-ms-reveal {
@@ -356,41 +350,51 @@ input[type="password"]::-ms-reveal {
   }
 }
 
-/* Mobile: one column flex fills viewport; no stacked min-heights (avoids extra scroll + iOS white gap) */
+/*
+ * Mobile auth: one scroll (document), no stacked min-heights (fixes iOS “infinite” white past bottom).
+ * Card stretches with flex; min-height only on .auth-page (100svh).
+ */
 @media (max-width: 1023px) {
+  html,
+  body {
+    /* Reduce rubber-band gap past content (iOS 16+; harmless elsewhere) */
+    overscroll-behavior-y: none;
+    overscroll-behavior-x: none;
+  }
+
   .auth-page {
     --auth-safe-top: env(safe-area-inset-top, 0px);
     --auth-safe-bottom: env(safe-area-inset-bottom, 0px);
     --auth-safe-left: env(safe-area-inset-left, 0px);
     --auth-safe-right: env(safe-area-inset-right, 0px);
-    /* Single min-height on the page only — children use flex, not duplicate 100svh */
+    box-sizing: border-box;
+    height: auto;
     min-height: 100svh;
-    min-height: 100dvh;
     max-height: none;
     padding-top: var(--auth-safe-top);
     padding-bottom: var(--auth-safe-bottom);
     padding-left: max(0.75rem, var(--auth-safe-left));
     padding-right: max(0.75rem, var(--auth-safe-right));
-    box-sizing: border-box;
+    /* Document scrolls — do NOT create a second scroll container (was causing extra whitespace on iOS) */
     overflow-x: hidden;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain;
+    overflow-y: visible;
+    overscroll-behavior-y: none;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
   }
+
   .auth-page .auth-layout {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
     min-height: 0;
     max-height: none;
-    gap: 0;
+    gap: 0.5rem;
     max-width: 100%;
     justify-content: flex-start;
     align-items: stretch;
   }
-  /* First column = auth card (image column is second in DOM) */
+
   .auth-page .auth-layout > div:first-child {
     flex: 1 1 auto;
     display: flex;
@@ -398,23 +402,25 @@ input[type="password"]::-ms-reveal {
     min-height: 0;
     align-items: stretch;
   }
+
   .auth-form-card {
     width: 100%;
     max-width: 360px;
     align-self: center;
-    flex: 1 0 auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    max-height: none;
     display: flex;
     flex-direction: column;
-    /* auto: at least content height; flex-grow still fills short screens */
-    min-height: auto;
-    max-height: none;
     margin-top: 0;
     margin-bottom: 0;
     overflow: hidden;
   }
+
   .auth-form-card .auth-card-content,
   .auth-form-card .signup-card-content {
-    flex: 1;
+    flex: 1 1 auto;
     min-height: 0;
     min-width: 0;
     display: flex;
@@ -423,18 +429,8 @@ input[type="password"]::-ms-reveal {
     overflow: visible;
   }
 
-  /* Mobile: remove bottom illustration entirely */
   .auth-image-col {
     display: none !important;
-  }
-}
-
-/* iOS: avoid -webkit-fill-available on .auth-page — it often exceeds visual viewport and adds scroll slack */
-@supports (-webkit-touch-callout: none) {
-  @media (max-width: 1023px) {
-    .auth-page {
-      overscroll-behavior-y: contain;
-    }
   }
 }
 
@@ -498,7 +494,9 @@ input[type="password"]::-ms-reveal {
 @media (max-width: 420px) {
   .auth-layout {
     gap: 0.5rem;
-    /* no extra vertical padding — was adding white bands + iOS overscroll gap */
+    /* No extra vertical padding — avoids white bands on iOS */
+    padding-top: 0;
+    padding-bottom: 0;
   }
   .auth-card-content {
     gap: 0.75rem;

@@ -17,12 +17,15 @@ export const metadata: Metadata = {
   description: "Signup and login UI for Stackly",
 };
 
-/** Edge-to-edge on notched devices; users can still zoom (accessibility). */
+/**
+ * Notched devices: viewport-fit=cover for env(safe-area-inset-*).
+ * No maximumScale cap so iOS Safari / Chrome can zoom freely (pinch & a11y +/-).
+ */
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 5,
   viewportFit: "cover",
+  userScalable: true,
 };
 
 export default function RootLayout({

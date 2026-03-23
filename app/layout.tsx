@@ -17,11 +17,13 @@ export const metadata: Metadata = {
   description: "Signup and login UI for Stackly",
 };
 
-/** Edge-to-edge on notched devices; users can still zoom (accessibility). */
+/** Edge-to-edge on notched devices; pinch + browser text zoom must stay enabled (esp. iOS Chrome). */
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  minimumScale: 0.5,
   maximumScale: 5,
+  userScalable: true,
   viewportFit: "cover",
 };
 

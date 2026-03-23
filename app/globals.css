@@ -394,8 +394,9 @@ input[type="password"]::-ms-reveal {
     overscroll-behavior-y: none;
     overscroll-behavior-x: none;
 
-    -webkit-text-size-adjust: 100%;
-    text-size-adjust: 100%;
+    /* Allow browser text zoom / accessibility (+/-); 100% blocks iOS Chrome text scaling */
+    -webkit-text-size-adjust: auto;
+    text-size-adjust: auto;
   }
 
   .auth-page .auth-layout {

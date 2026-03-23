@@ -35,7 +35,18 @@ body {
   overflow-x: hidden;
 }
 
-/* iOS: avoid html/body -webkit-fill-available — stacks with .auth-page min-height and adds extra scroll */
+/*
+ * iOS Safari: make 100% / min-height chain resolve to the *visible* viewport.
+ * Without this, auth pages can render too short, leave gaps, or flex children collapse.
+ */
+@supports (-webkit-touch-callout: none) {
+  html {
+    height: -webkit-fill-available;
+  }
+  body {
+    min-height: -webkit-fill-available;
+  }
+}
 
 /* Hide browser's native password reveal (e.g. Edge) so only our single eye shows */
 input[type="password"]::-ms-reveal {
@@ -350,77 +361,66 @@ input[type="password"]::-ms-reveal {
   }
 }
 
-/*
- * Mobile auth: one scroll (document), no stacked min-heights (fixes iOS “infinite” white past bottom).
- * Card stretches with flex; min-height only on .auth-page (100svh).
- */
+/* Mobile: edge-to-edge feel (no extra top/bottom white bars); scroll only when content overflows */
 @media (max-width: 1023px) {
-  html,
-  body {
-    /* Reduce rubber-band gap past content (iOS 16+; harmless elsewhere) */
-    overscroll-behavior-y: none;
-    overscroll-behavior-x: none;
-  }
-
   .auth-page {
+    /* Safe areas only (notches / home indicator); no arbitrary vertical padding */
     --auth-safe-top: env(safe-area-inset-top, 0px);
     --auth-safe-bottom: env(safe-area-inset-bottom, 0px);
     --auth-safe-left: env(safe-area-inset-left, 0px);
     --auth-safe-right: env(safe-area-inset-right, 0px);
-    box-sizing: border-box;
     height: auto;
     min-height: 100svh;
+    min-height: 100dvh;
     max-height: none;
     padding-top: var(--auth-safe-top);
     padding-bottom: var(--auth-safe-bottom);
     padding-left: max(0.75rem, var(--auth-safe-left));
     padding-right: max(0.75rem, var(--auth-safe-right));
-    /* Document scrolls — do NOT create a second scroll container (was causing extra whitespace on iOS) */
+    overflow-y: auto;
     overflow-x: hidden;
-    overflow-y: visible;
-    overscroll-behavior-y: none;
-    -webkit-text-size-adjust: 100%;
-    text-size-adjust: 100%;
+    -webkit-overflow-scrolling: touch;
   }
-
   .auth-page .auth-layout {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    min-height: 0;
+    /* Avoid min(100%, …): on iOS, % height can be wrong when parent is height:auto */
+    min-height: calc(100svh - var(--auth-safe-top) - var(--auth-safe-bottom));
     max-height: none;
     gap: 0.5rem;
     max-width: 100%;
+    /* Top-align so the card can fill the screen; avoids “floating” white gaps */
     justify-content: flex-start;
     align-items: stretch;
   }
-
+  /* First column = auth card (image column is second in DOM) */
   .auth-page .auth-layout > div:first-child {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    min-height: 0;
+    /* min-height:0 collapses some WebKit flex columns when parent height is implicit */
+    min-height: auto;
     align-items: stretch;
   }
-
   .auth-form-card {
     width: 100%;
-    max-width: 360px;
+    max-width: 360px;       /* same width on login & signup */
     align-self: center;
-    flex: 1 1 auto;
-    min-height: 0;
     height: auto;
+    /* At least full usable viewport height (popular app-style full-screen card) */
+    min-height: calc(100svh - var(--auth-safe-top) - var(--auth-safe-bottom));
+    min-height: calc(100dvh - var(--auth-safe-top) - var(--auth-safe-bottom));
     max-height: none;
     display: flex;
     flex-direction: column;
     margin-top: 0;
     margin-bottom: 0;
-    overflow: hidden;
+    overflow: hidden;       /* keep rounded corners/inner panel clean */
   }
-
   .auth-form-card .auth-card-content,
   .auth-form-card .signup-card-content {
-    flex: 1 1 auto;
+    flex: 1;
     min-height: 0;
     min-width: 0;
     display: flex;
@@ -429,8 +429,29 @@ input[type="password"]::-ms-reveal {
     overflow: visible;
   }
 
+  /* Mobile: remove bottom illustration entirely */
   .auth-image-col {
     display: none !important;
+  }
+}
+
+/*
+ * iOS Safari (mobile auth): use -webkit-fill-available ONLY as a plain min-height (no calc()).
+ * calc(-webkit-fill-available ± env()) is unreliable in WebKit and can break the whole layout.
+ */
+@supports (-webkit-touch-callout: none) {
+  @media (max-width: 1023px) {
+    .auth-page {
+      height: auto;
+      min-height: -webkit-fill-available;
+      max-height: none;
+    }
+    .auth-form-card {
+      height: auto;
+      /* svh/dvh work on modern iOS; avoids broken fill-available math */
+      min-height: calc(100svh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      min-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    }
   }
 }
 
@@ -494,9 +515,8 @@ input[type="password"]::-ms-reveal {
 @media (max-width: 420px) {
   .auth-layout {
     gap: 0.5rem;
-    /* No extra vertical padding — avoids white bands on iOS */
-    padding-top: 0;
-    padding-bottom: 0;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
   .auth-card-content {
     gap: 0.75rem;

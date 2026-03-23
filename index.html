@@ -30,6 +30,17 @@
       overflow-x: hidden;
     }
 
+    @supports (-webkit-touch-callout: none) {
+      @media (max-width: 1023px) {
+        html {
+          height: -webkit-fill-available;
+        }
+        body {
+          min-height: -webkit-fill-available;
+        }
+      }
+    }
+
     /* Hide browser's native password reveal (e.g. Edge) so only our single eye shows */
     input[type="password"]::-ms-reveal {
       display: none !important;
@@ -361,12 +372,14 @@
         overflow-y: auto;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
       }
       .auth-page .auth-layout {
         flex: 1 1 auto;
         display: flex;
         flex-direction: column;
-        min-height: min(100%, calc(100svh - var(--auth-safe-top) - var(--auth-safe-bottom)));
+        min-height: calc(100svh - var(--auth-safe-top) - var(--auth-safe-bottom));
         max-height: none;
         gap: 0.5rem;
         max-width: 100%;
@@ -377,7 +390,7 @@
         flex: 1 1 auto;
         display: flex;
         flex-direction: column;
-        min-height: 0;
+        min-height: auto;
         align-items: stretch;
       }
       .auth-form-card {
@@ -409,6 +422,11 @@
       .auth-image-col {
         display: none !important;
       }
+
+      /* iOS: login must not clip inner flex content (overflow:hidden breaks layout) */
+      .login-card .auth-card-content {
+        overflow: visible !important;
+      }
     }
 
     @supports (-webkit-touch-callout: none) {
@@ -422,7 +440,6 @@
         .auth-form-card {
           height: auto;
           min-height: calc(100svh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
-          min-height: calc(-webkit-fill-available - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
         }
       }
     }

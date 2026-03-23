@@ -35,6 +35,18 @@ body {
   overflow-x: hidden;
 }
 
+/* iOS Safari: stable full-height chain (Android/Chrome ignore -webkit-fill-available) */
+@supports (-webkit-touch-callout: none) {
+  @media (max-width: 1023px) {
+    html {
+      height: -webkit-fill-available;
+    }
+    body {
+      min-height: -webkit-fill-available;
+    }
+  }
+}
+
 /* Hide browser's native password reveal (e.g. Edge) so only our single eye shows */
 input[type="password"]::-ms-reveal {
   display: none !important;
@@ -367,12 +379,16 @@ input[type="password"]::-ms-reveal {
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
+    /* Prevent iOS from inflating text and breaking flex/line-wrap */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
   .auth-page .auth-layout {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    min-height: min(100%, calc(100svh - var(--auth-safe-top) - var(--auth-safe-bottom)));
+    /* iOS: avoid min(100%, …) — parent height can be “auto” and % resolves badly */
+    min-height: calc(100svh - var(--auth-safe-top) - var(--auth-safe-bottom));
     max-height: none;
     gap: 0.5rem;
     max-width: 100%;
@@ -385,7 +401,8 @@ input[type="password"]::-ms-reveal {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    min-height: 0;
+    /* iOS: min-height:0 can collapse nested flex; keep auto so card always lays out */
+    min-height: auto;
     align-items: stretch;
   }
   .auth-form-card {
@@ -393,7 +410,7 @@ input[type="password"]::-ms-reveal {
     max-width: 360px;       /* same width on login & signup */
     align-self: center;
     height: auto;
-    /* At least full usable viewport height (popular app-style full-screen card) */
+    /* Match inner area below safe-area padding (border-box on .auth-page) */
     min-height: calc(100svh - var(--auth-safe-top) - var(--auth-safe-bottom));
     min-height: calc(100dvh - var(--auth-safe-top) - var(--auth-safe-bottom));
     max-height: none;
@@ -420,11 +437,15 @@ input[type="password"]::-ms-reveal {
   }
 }
 
-/* iOS Safari: fill visible viewport (address bar quirks) */
+/*
+ * iOS Safari: do NOT use calc(-webkit-fill-available ± env(...)) — it is unreliable
+ * and can collapse or oversize the card. html/body -webkit-fill-available chain + svh handles height.
+ */
 @supports (-webkit-touch-callout: none) {
   @media (max-width: 1023px) {
     .auth-page {
       height: auto;
+      /* Base height first; -webkit-fill-available last so WebKit uses it when supported */
       min-height: 100svh;
       min-height: -webkit-fill-available;
       max-height: none;
@@ -432,7 +453,6 @@ input[type="password"]::-ms-reveal {
     .auth-form-card {
       height: auto;
       min-height: calc(100svh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
-      min-height: calc(-webkit-fill-available - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
     }
   }
 }

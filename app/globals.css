@@ -90,13 +90,41 @@ input[type="password"]::-ms-reveal {
   }
 }
 
-/* Mobile + zoom: prevent Remember me / Forgot Password overlap - stack on narrow */
-@media (max-width: 480px) {
-  .login-remember-forgot {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
+/*
+ * Login — Remember me / Forgot Password: always a clean horizontal row under the password field,
+ * full width, left / right aligned (no vertical stack that looked “centered” on mobile).
+ */
+.login-page .login-remember-forgot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, auto);
+  align-items: center;
+  justify-items: stretch;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  column-gap: clamp(0.375rem, 2.5vw, 1rem);
+  row-gap: 0.25rem;
+}
+
+.login-page .login-remember-forgot label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  justify-self: start;
+  text-align: left;
+}
+
+.login-page .login-remember-forgot .forgot-password-link {
+  justify-self: end;
+  text-align: right;
+  align-self: center;
+  min-width: 0;
+  max-width: 100%;
+  font-size: clamp(10px, 2.85vw, 13px);
+  line-height: 1.25;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 /* Error text - sufficient contrast on dark blue background */
@@ -539,11 +567,6 @@ input[type="password"]::-ms-reveal {
 @media (max-width: 768px) and (min-resolution: 1.5dppx) {
   .auth-card-content > * {
     margin-bottom: 0.5rem;
-  }
-  .login-remember-forgot {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
   }
   .font-welcome-heading {
     letter-spacing: 0.2em;

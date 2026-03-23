@@ -597,23 +597,41 @@
       }
     }
 
-    /* Remember me / Forgot Password: stack on narrow to prevent overlap */
-    @media (max-width: 480px) {
-      .login-remember-forgot {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-      }
+    /* Login Remember/Forgot: same grid rules as app/globals.css (.login-page .login-remember-forgot) */
+    .login-page .login-remember-forgot {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, auto);
+      align-items: center;
+      justify-items: stretch;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      column-gap: clamp(0.375rem, 2.5vw, 1rem);
+      row-gap: 0.25rem;
+    }
+    .login-page .login-remember-forgot label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      min-width: 0;
+      justify-self: start;
+      text-align: left;
+    }
+    .login-page .login-remember-forgot .forgot-password-link {
+      justify-self: end;
+      text-align: right;
+      align-self: center;
+      min-width: 0;
+      max-width: 100%;
+      font-size: clamp(10px, 2.85vw, 13px);
+      line-height: 1.25;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
 
     @media (max-width: 768px) and (min-resolution: 1.5dppx) {
       .auth-card-content > * {
         margin-bottom: 0.5rem;
-      }
-      .login-remember-forgot {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
       }
       .font-welcome-heading {
         letter-spacing: 0.2em;
@@ -1318,7 +1336,7 @@
   </div>
 
   <!-- ================= LOGIN PAGE ================= -->
-  <div id="loginPage" class="auth-page min-h-screen bg-white flex flex-col px-3 sm:px-6 py-0 sm:py-4 overflow-y-auto">
+  <div id="loginPage" class="login-page auth-page min-h-screen bg-white flex flex-col px-3 sm:px-6 py-0 sm:py-4 overflow-y-auto">
     <div class="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-6 sm:gap-6 lg:gap-8 auth-layout">
       <!-- CARD FIRST ON MOBILE (TOP), RIGHT ON DESKTOP -->
       <div class="w-full lg:w-1/2 flex justify-center order-1 lg:order-2">
@@ -1410,15 +1428,19 @@
             </div>
 
             <!-- REMEMBER / FORGOT -->
-            <div class="login-remember-forgot flex flex-wrap items-center justify-between gap-x-4 gap-y-2 mt-5 sm:mt-4 text-xs opacity-90 min-w-0">
-              <label class="flex items-center gap-2 cursor-pointer flex-shrink-0">
+            <div
+              class="login-remember-forgot mt-5 sm:mt-4 text-xs opacity-90 min-w-0 w-full max-w-full"
+              role="group"
+              aria-label="Login options"
+            >
+              <label class="cursor-pointer min-w-0">
                 <input
                   type="checkbox"
                   class="h-3.5 w-3.5 rounded border border-white/60 bg-transparent accent-[#2d8cf0]"
                 />
                 <span>Remember me</span>
               </label>
-              <a href="#forgot" onclick="location.hash='forgot'; showPage('forgot'); return false;" class="forgot-password-link cursor-pointer flex-shrink-0 min-w-0">
+              <a href="#forgot" onclick="location.hash='forgot'; showPage('forgot'); return false;" class="forgot-password-link cursor-pointer min-w-0">
                 Forgot Password?
               </a>
             </div>

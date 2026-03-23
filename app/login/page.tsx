@@ -246,8 +246,12 @@ export default function LoginPage() {
                   </div>
                 </div>
 
-                <div className="login-remember-forgot flex flex-wrap items-center justify-between gap-x-4 gap-y-2 mt-5 sm:mt-4 text-xs opacity-90 flex-shrink-0 min-w-0">
-                  <label className="flex items-center gap-2 cursor-pointer flex-shrink-0">
+                <div
+                  className="login-remember-forgot mt-5 sm:mt-4 text-xs opacity-90 flex-shrink-0 min-w-0 w-full max-w-full"
+                  role="group"
+                  aria-label="Login options"
+                >
+                  <label className="cursor-pointer min-w-0">
                     <input
                       type="checkbox"
                       checked={form.rememberMe}
@@ -258,7 +262,7 @@ export default function LoginPage() {
                   </label>
                   <Link
                     href="/forgot-password"
-                    className="forgot-password-link text-white no-underline hover:text-white hover:underline decoration-1 underline-offset-4 text-[13px] flex-shrink-0 min-w-0"
+                    className="forgot-password-link text-white no-underline hover:text-white hover:underline decoration-1 underline-offset-4 min-w-0"
                   >
                     Forgot Password?
                   </Link>

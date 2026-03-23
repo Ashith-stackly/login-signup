@@ -173,7 +173,7 @@ export default function SignupPage() {
             <div className="pointer-events-none absolute inset-0 rounded-[10px] shadow-[inset_20px_0_45px_rgba(0,0,0,0.55),inset_-20px_0_45px_rgba(0,0,0,0.55)]" />
             <div className="pointer-events-none absolute inset-0 rounded-[10px] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.25)]" />
 
-            <div className="relative z-10 flex flex-col flex-1 min-h-0 min-w-0 px-4 sm:px-6 pt-2.5 sm:pt-4 pb-2 sm:pb-3 lg:pt-8 lg:pb-6 text-white signup-card-content text-left justify-between">
+            <div className="relative z-10 flex flex-col flex-1 min-h-0 min-w-0 px-4 sm:px-6 pt-2.5 sm:pt-4 pb-2 sm:pb-3 lg:pt-7 lg:pb-4 text-white signup-card-content text-left justify-between">
               {/* Single column: centers WELCOME and logo on the same axis (mobile + desktop) */}
               <div className="signup-brand-stack flex w-full min-w-0 flex-col items-center flex-shrink-0 mb-3 sm:mb-2.5 lg:mb-4">
                 <h1 className="signup-welcome-title font-welcome-heading text-xl sm:text-2xl font-semibold text-center mb-3 sm:mb-2.5 lg:mb-4 w-[120px] sm:w-[140px] lg:w-[180px]">
@@ -185,7 +185,7 @@ export default function SignupPage() {
               </div>
 
               <form onSubmit={handleSignup} noValidate>
-                <div className="space-y-3 sm:space-y-2.5 lg:space-y-3 flex-shrink-0">
+                <div className="space-y-3 sm:space-y-2.5 lg:space-y-2.5 flex-shrink-0">
                   <div className="flex flex-col">
                     <div className="flex items-center border-b border-white/80 pb-2">
                       <FaUser className="mr-3 text-sm text-white/90" />
@@ -200,7 +200,7 @@ export default function SignupPage() {
                       />
                     </div>
                     {errors.name && (
-                      <p id="name-error" className="auth-error-text mt-0.5 text-[11px] sm:text-xs">
+                      <p id="name-error" className="auth-error-text mt-0.5 text-[11px] sm:text-xs lg:text-[11px]">
                         {errors.name}
                       </p>
                     )}
@@ -220,7 +220,7 @@ export default function SignupPage() {
                       />
                     </div>
                     {errors.email && (
-                      <p id="email-error" className="auth-error-text mt-0.5 text-[11px] sm:text-xs">
+                      <p id="email-error" className="auth-error-text mt-0.5 text-[11px] sm:text-xs lg:text-[11px]">
                         {errors.email}
                       </p>
                     )}
@@ -242,7 +242,7 @@ export default function SignupPage() {
                       />
                     </div>
                     {errors.mobileNumber && (
-                      <p id="mobile-error" className="auth-error-text mt-0.5 text-[11px] sm:text-xs">
+                      <p id="mobile-error" className="auth-error-text mt-0.5 text-[11px] sm:text-xs lg:text-[11px]">
                         {errors.mobileNumber}
                       </p>
                     )}
@@ -274,7 +274,7 @@ export default function SignupPage() {
                       </button>
                     </div>
                     {errors.password && (
-                      <p id="password-error" className="auth-error-text mt-0.5 text-[11px] sm:text-xs">
+                      <p id="password-error" className="auth-error-text mt-0.5 text-[11px] sm:text-xs lg:text-[11px]">
                         {errors.password}
                       </p>
                     )}
@@ -306,7 +306,7 @@ export default function SignupPage() {
                       </button>
                     </div>
                     {errors.confirmPassword && (
-                      <p id="confirmPassword-error" className="auth-error-text mt-0.5 text-[11px] sm:text-xs">
+                      <p id="confirmPassword-error" className="auth-error-text mt-0.5 text-[11px] sm:text-xs lg:text-[11px]">
                         {errors.confirmPassword}
                       </p>
                     )}
@@ -324,23 +324,23 @@ export default function SignupPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="mt-3 mb-2 w-full h-[42px] flex-shrink-0 bg-gradient-to-r from-[#2d8cf0] to-[#5a78c7] rounded-md text-sm font-medium text-white shadow-md hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="mt-2.5 mb-2.5 lg:mt-2.5 lg:mb-2.5 w-full h-[42px] flex-shrink-0 bg-gradient-to-r from-[#2d8cf0] to-[#5a78c7] rounded-md text-sm font-medium text-white shadow-md hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? "Checking..." : "Sign Up"}
                 </button>
               </form>
 
-              <div className="flex-shrink-0 mt-2">
-                <p className="text-center text-xs mt-1.5 text-white/80">
+              <div className="flex-shrink-0 mt-1 lg:mt-0.5">
+                <p className="text-center text-xs mt-1 lg:mt-0.5 mb-1.5 lg:mb-2 text-white/80">
                   Already have an account?{" "}
                   <Link href="/login" className="text-amber-300 hover:text-amber-200 font-medium">
                     Login
                   </Link>
                 </p>
 
-                <div className="mt-2 mb-2 border-t border-white/50" />
+                <div className="mt-1.5 mb-1 lg:mt-1 lg:mb-0.5 border-t border-white/50" />
 
-                <div className="pt-0.5 pb-2 sm:pt-1 sm:pb-4">
+                <div className="pt-0.5 pb-1 sm:pt-1 sm:pb-3 lg:pb-2">
                   <a
                     href={
                       "https://accounts.google.com/o/oauth2/v2/auth" +

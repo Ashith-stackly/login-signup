@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { FaEnvelope, FaLock } from "react-icons/fa";
+import { FaAddressBook, FaLock } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { login as loginApi } from "@/lib/api";
 
@@ -153,7 +153,7 @@ export default function LoginPage() {
                   <div className="space-y-6 sm:space-y-4 lg:space-y-6 flex-shrink-0">
                   <div className="flex flex-col">
                     <div className="flex items-center border-b border-white/60 pb-2 min-w-0">
-                      <FaEnvelope className="login-email-icon mr-2 sm:mr-4 text-sm opacity-80 flex-shrink-0" />
+                      <FaAddressBook className="login-email-icon mr-2 sm:mr-4 text-sm opacity-80 flex-shrink-0" />
                       <input
                         type="text"
                         placeholder="Email or Mobile number"

@@ -411,50 +411,34 @@ input[type="password"]::-ms-reveal {
   }
 }
 
-/*
- * Mobile auth: viewport units differ per browser (dvh/svh/lvh/vh). Never stack two min-heights
- * where the *smaller* wins (e.g. 100svh after 100dvh) — that caused short layouts and white bands.
- * Match page + document background to the card gradient so gaps / overscroll never flash white.
- */
+/* Mobile: edge-to-edge feel (no extra top/bottom bars); scroll only when content overflows */
 @media (max-width: 1023px) {
-  html:has(.auth-page),
-  body:has(.auth-page) {
-    background-color: #021a46;
-    background-image: linear-gradient(to bottom, #5f82e8 0%, #3f66c9 50%, #021a46 100%);
-  }
-
   .auth-page {
     justify-content: flex-start;
     align-items: stretch;
-    /* Same as card — overrides Tailwind bg-white (no white strips on any mobile browser) */
-    background-color: #021a46 !important;
-    background-image: linear-gradient(to bottom, #5f82e8 0%, #3f66c9 50%, #021a46 100%) !important;
-    /* No top/bottom padding here — avoids strips on Android & iOS */
+    /* No top/bottom padding here — avoids strips (bg-white) on Android & iOS */
     --auth-safe-top: env(safe-area-inset-top, 0px);
     --auth-safe-bottom: env(safe-area-inset-bottom, 0px);
     --auth-safe-left: env(safe-area-inset-left, 0px);
     --auth-safe-right: env(safe-area-inset-right, 0px);
-    height: auto;
-    /* max(...) picks the largest — covers dvh/svh/lvh mismatches across devices */
-    min-height: 100vh;
-    min-height: max(100dvh, 100svh, 100lvh);
-    max-height: none;
+    height: 100dvh;
+    min-height: 100dvh;
+    max-height: 100dvh;
     padding-top: 0;
     padding-bottom: 0;
     /* Remove white margins on left/right in mobile. */
     padding-left: 0 !important;
     padding-right: 0 !important;
-    overflow-y: auto;
+    overflow-y: hidden;
     overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
   }
   .auth-page .auth-layout {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    min-height: max(100dvh, 100svh, 100lvh);
-    max-height: none;
+    height: 100%;
+    min-height: 100%;
+    max-height: 100%;
     gap: 0;
     max-width: 100%;
     /* Top-align so the card can fill the screen; avoids “floating” gaps */
@@ -466,27 +450,28 @@ input[type="password"]::-ms-reveal {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    min-height: max(100dvh, 100svh, 100lvh);
+    height: 100%;
+    min-height: 100%;
     align-items: stretch;
   }
   .auth-form-card {
     width: 100%;
     max-width: 100% !important;       /* edge-to-edge */
     align-self: stretch;
-    height: auto;
+    height: 100%;
     /* Safe area inside the card so content clears notch / home indicator */
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
     /* Full viewport; padding is inside (border-box) */
-    min-height: 100vh;
-    min-height: max(100dvh, 100svh, 100lvh);
-    max-height: none;
+    min-height: 100%;
+    max-height: 100%;
     display: flex;
     flex-direction: column;
     margin-top: 0;
     margin-bottom: 0;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .auth-form-card .auth-card-content,
   .auth-form-card .signup-card-content {
@@ -506,21 +491,21 @@ input[type="password"]::-ms-reveal {
 }
 
 /*
- * iOS Safari: -webkit-fill-available tracks the visible viewport; combine with max() so we never
- * end up shorter than dvh on devices where fill-available is wrong.
+ * iOS Safari (mobile auth): use -webkit-fill-available ONLY as a plain min-height (no calc()).
+ * calc(-webkit-fill-available ± env()) is unreliable in WebKit and can break the whole layout.
  */
 @supports (-webkit-touch-callout: none) {
   @media (max-width: 1023px) {
-    .auth-page,
-    .auth-page .auth-layout,
-    .auth-page .auth-layout > div:first-child {
-      height: auto;
-      min-height: max(-webkit-fill-available, 100dvh, 100svh);
-      max-height: none;
+    .auth-page {
+      height: -webkit-fill-available;
+      min-height: -webkit-fill-available;
+      max-height: -webkit-fill-available;
     }
     .auth-form-card {
-      height: auto;
-      min-height: max(-webkit-fill-available, 100dvh, 100svh);
+      height: 100%;
+      min-height: 100%;
+      max-height: 100%;
+      min-height: -webkit-fill-available;
     }
   }
 }

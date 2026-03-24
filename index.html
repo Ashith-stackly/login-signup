@@ -51,24 +51,17 @@
       text-align: center;
     }
 
-    /* Signup WELCOME: match project letter-spacing (0.35em) */
-    #signupPage .font-welcome-heading {
-      letter-spacing: 0.35em;
-    }
-
     @media (max-width: 1023px) {
       #signupPage .signup-card-content .signup-brand-stack {
         align-items: center;
         width: 100%;
       }
-      #signupPage .signup-card-content .signup-welcome-title {
-        text-align: center;
-        transform: none;
-      }
     }
     @media (max-width: 400px) {
       #signupPage .signup-card-content .signup-welcome-title {
-        width: 100%;
+        width: auto !important;
+        max-width: none !important;
+        padding-inline: 0;
       }
     }
 
@@ -332,9 +325,6 @@
         white-space: normal;
       }
 
-      #signupPage .signup-card-content .font-welcome-heading {
-        letter-spacing: inherit;
-      }
     }
     @media (min-width: 640px) and (max-width: 1023px) {
       #loginPage .login-card-inner,

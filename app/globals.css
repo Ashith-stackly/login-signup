@@ -398,8 +398,7 @@ input[type="password"]::-ms-reveal {
   }
 }
 
-/* Large screens only: vertically center auth when split layout. At 768–1023px this was centering
- * the card in the viewport and leaving white bands above/below on phones (landscape) and tablets. */
+/* Desktop only: vertically center auth layout (768–1023px stays top-aligned like mobile — avoids white bands) */
 @media (min-width: 1024px) {
   .auth-page {
     justify-content: center;
@@ -414,27 +413,18 @@ input[type="password"]::-ms-reveal {
 
 /* Mobile: edge-to-edge feel (no extra top/bottom bars); scroll only when content overflows */
 @media (max-width: 1023px) {
-  /* Match card mid-tone so Chrome/Android never shows white between chrome UI and content */
-  html:has(.auth-page),
-  body:has(.auth-page) {
-    background-color: #3f66c9 !important;
-    min-height: 100svh;
-    min-height: 100dvh;
-    min-height: 100lvh;
-  }
-
   .auth-page {
-    /* Kill Tailwind bg-white — gaps/overscroll must not flash white */
-    justify-content: flex-start !important;
-    background-color: transparent !important;
+    justify-content: flex-start;
+    align-items: stretch;
     /* No top/bottom padding here — avoids strips (bg-white) on Android & iOS */
     --auth-safe-top: env(safe-area-inset-top, 0px);
     --auth-safe-bottom: env(safe-area-inset-bottom, 0px);
     --auth-safe-left: env(safe-area-inset-left, 0px);
     --auth-safe-right: env(safe-area-inset-right, 0px);
     height: auto;
-    min-height: 100svh;
+    /* dvh tracks visible viewport on mobile (reduces white strips vs 100vh / min-h-screen) */
     min-height: 100dvh;
+    min-height: 100svh;
     max-height: none;
     padding-top: 0;
     padding-bottom: 0;
@@ -449,8 +439,8 @@ input[type="password"]::-ms-reveal {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    min-height: 100svh;
     min-height: 100dvh;
+    min-height: 100svh;
     max-height: none;
     gap: 0;
     max-width: 100%;
@@ -463,19 +453,9 @@ input[type="password"]::-ms-reveal {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    min-height: 100svh;
     min-height: 100dvh;
+    min-height: 100svh;
     align-items: stretch;
-  }
-  /* Flatter gradient on small viewports — less dark banding at top/bottom */
-  .login-card.auth-form-card,
-  .signup-card.auth-form-card {
-    background-image: linear-gradient(
-      to bottom,
-      #5f82e8 0%,
-      #3f66c9 52%,
-      #2d5ab8 100%
-    ) !important;
   }
   .auth-form-card {
     width: 100%;
@@ -486,18 +466,14 @@ input[type="password"]::-ms-reveal {
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
     /* Full viewport; padding is inside (border-box) */
-    min-height: 100svh;
     min-height: 100dvh;
+    min-height: 100svh;
     max-height: none;
     display: flex;
     flex-direction: column;
     margin-top: 0;
     margin-bottom: 0;
     overflow: hidden;
-  }
-  /* Edge inset shadows read as extra dark bands on tall phones — soften on mobile */
-  .auth-form-card > .pointer-events-none.absolute.inset-0 {
-    opacity: 0.42;
   }
   .auth-form-card .auth-card-content,
   .auth-form-card .signup-card-content {
@@ -506,7 +482,7 @@ input[type="password"]::-ms-reveal {
     min-width: 0;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: flex-start !important;
     overflow: visible;
   }
 
@@ -530,8 +506,8 @@ input[type="password"]::-ms-reveal {
     .auth-form-card {
       height: auto;
       /* Match Android: full viewport; safe-area is padding on the card, not subtracted twice */
-      min-height: 100svh;
       min-height: 100dvh;
+      min-height: 100svh;
       min-height: -webkit-fill-available;
     }
   }

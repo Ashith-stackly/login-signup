@@ -162,7 +162,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="auth-page min-h-screen bg-white flex flex-col px-3 sm:px-6 py-0 sm:py-4 overflow-y-auto">
+    <div className="auth-page min-h-[100dvh] lg:min-h-screen bg-white flex flex-col px-3 sm:px-6 py-0 lg:py-4 overflow-y-auto">
       <div className="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-6 sm:gap-6 lg:gap-8 auth-layout">
         {/* Card first on mobile (top), right on desktop */}
         <div className="w-full lg:w-1/2 flex justify-center order-1 lg:order-2">
@@ -173,7 +173,7 @@ export default function SignupPage() {
             <div className="pointer-events-none absolute inset-0 rounded-none lg:rounded-[10px] shadow-[inset_20px_0_45px_rgba(0,0,0,0.55),inset_-20px_0_45px_rgba(0,0,0,0.55)]" />
             <div className="pointer-events-none absolute inset-0 rounded-none lg:rounded-[10px] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.25)]" />
 
-            <div className="relative z-10 flex flex-col flex-1 min-h-0 min-w-0 px-4 sm:px-6 pt-2.5 sm:pt-4 pb-2 sm:pb-3 lg:pt-7 lg:pb-4 text-white signup-card-content text-left justify-between">
+            <div className="relative z-10 flex flex-col flex-1 min-h-0 min-w-0 px-4 sm:px-6 pt-2.5 sm:pt-4 pb-2 sm:pb-3 lg:pt-7 lg:pb-4 text-white signup-card-content text-left justify-start lg:justify-between">
               {/* Single column: centers WELCOME and logo on the same axis (mobile + desktop) */}
               <div className="signup-brand-stack flex w-full min-w-0 flex-col items-center flex-shrink-0 mb-3 sm:mb-2.5 lg:mb-4">
                 <h1 className="signup-welcome-title font-welcome-heading text-xl sm:text-2xl font-semibold text-center mb-3 sm:mb-2.5 lg:mb-4 w-[120px] sm:w-[140px] lg:w-[180px]">

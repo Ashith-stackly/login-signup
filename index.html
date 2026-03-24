@@ -359,7 +359,7 @@
       }
     }
 
-    /* Large screens only — 768–1023px was vertically centering the card (white bands on tablet / landscape phones) */
+    /* Desktop only: vertically center auth layout */
     @media (min-width: 1024px) {
       .auth-page {
         justify-content: center;
@@ -409,24 +409,16 @@
 
     /* Mobile: no extra top/bottom bands; safe-area lives inside card */
     @media (max-width: 1023px) {
-      html:has(.auth-page),
-      body:has(.auth-page) {
-        background-color: #3f66c9 !important;
-        min-height: 100svh;
-        min-height: 100dvh;
-        min-height: 100lvh;
-      }
-
       .auth-page {
-        justify-content: flex-start !important;
-        background-color: transparent !important;
+        justify-content: flex-start;
+        align-items: stretch;
         --auth-safe-top: env(safe-area-inset-top, 0px);
         --auth-safe-bottom: env(safe-area-inset-bottom, 0px);
         --auth-safe-left: env(safe-area-inset-left, 0px);
         --auth-safe-right: env(safe-area-inset-right, 0px);
         height: auto;
-        min-height: 100svh;
         min-height: 100dvh;
+        min-height: 100svh;
         max-height: none;
         padding-top: 0;
         padding-bottom: 0;
@@ -441,8 +433,8 @@
         flex: 1 1 auto;
         display: flex;
         flex-direction: column;
-        min-height: 100svh;
         min-height: 100dvh;
+        min-height: 100svh;
         max-height: none;
         gap: 0;
         max-width: 100%;
@@ -453,18 +445,9 @@
         flex: 1 1 auto;
         display: flex;
         flex-direction: column;
-        min-height: 100svh;
         min-height: 100dvh;
+        min-height: 100svh;
         align-items: stretch;
-      }
-      .login-card.auth-form-card,
-      .signup-card.auth-form-card {
-        background-image: linear-gradient(
-          to bottom,
-          #5f82e8 0%,
-          #3f66c9 52%,
-          #2d5ab8 100%
-        ) !important;
       }
       .auth-form-card {
         width: 100%;
@@ -473,17 +456,14 @@
         height: auto;
         padding-top: env(safe-area-inset-top, 0px);
         padding-bottom: env(safe-area-inset-bottom, 0px);
-        min-height: 100svh;
         min-height: 100dvh;
+        min-height: 100svh;
         max-height: none;
         display: flex;
         flex-direction: column;
         margin-top: 0;
         margin-bottom: 0;
         overflow: hidden;
-      }
-      .auth-form-card > .pointer-events-none.absolute.inset-0 {
-        opacity: 0.42;
       }
       .auth-form-card .auth-card-content,
       .auth-form-card .signup-card-content {
@@ -492,7 +472,7 @@
         min-width: 0;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
+        justify-content: flex-start !important;
         overflow: visible;
       }
 
@@ -511,8 +491,8 @@
         }
         .auth-form-card {
           height: auto;
-          min-height: 100svh;
           min-height: 100dvh;
+          min-height: 100svh;
           min-height: -webkit-fill-available;
         }
       }
@@ -1329,11 +1309,11 @@
   </div>
 
   <!-- ================= SIGNUP PAGE ================= -->
-  <div id="signupPage" class="hidden auth-page min-h-screen bg-white flex flex-col px-3 sm:px-6 py-0 sm:py-4 overflow-y-auto">
+  <div id="signupPage" class="hidden auth-page min-h-[100dvh] lg:min-h-screen bg-white flex flex-col px-3 sm:px-6 py-0 lg:py-4 overflow-y-auto">
     <div class="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-6 sm:gap-6 lg:gap-8 auth-layout">
       <!-- CARD FIRST ON MOBILE (TOP), RIGHT ON DESKTOP -->
       <div class="w-full lg:w-1/2 flex justify-center order-1 lg:order-2">
-        <div class="relative overflow-hidden w-full max-w-[520px] bg-gradient-to-b from-[#5f82e8] via-[#3f66c9] to-[#021a46] rounded-none lg:rounded-[10px] px-6 sm:px-10 flex flex-col signup-card auth-form-card">
+        <div class="relative overflow-hidden w-full max-w-[520px] bg-gradient-to-b from-[#5f82e8] via-[#3f66c9] to-[#021a46] rounded-none lg:rounded-[10px] px-6 sm:px-10 flex flex-col auth-form-card">
           <div
             class="
               auth-inner-panel
@@ -1368,7 +1348,7 @@
             "
           ></div>
 
-            <div class="relative z-10 flex flex-col flex-1 min-h-0 min-w-0 px-4 sm:px-6 pt-2 sm:pt-4 pb-1.5 sm:pb-3 lg:pt-7 lg:pb-4 text-white signup-card-content text-left justify-between">
+            <div class="relative z-10 flex flex-col flex-1 min-h-0 min-w-0 px-4 sm:px-6 pt-2 sm:pt-4 pb-1.5 sm:pb-3 lg:pt-7 lg:pb-4 text-white signup-card-content text-left justify-start lg:justify-between">
             <!-- WELCOME + logo: same stack so both center on one axis -->
             <div class="signup-brand-stack flex w-full min-w-0 flex-col items-center flex-shrink-0 mb-3 sm:mb-2.5 lg:mb-4">
               <h1 class="signup-welcome-title font-welcome-heading text-xl sm:text-2xl font-semibold text-center mb-3 sm:mb-2.5 lg:mb-4 w-[120px] sm:w-[140px] lg:w-[180px]">
@@ -1528,7 +1508,7 @@
       </div>
 
   <!-- ================= LOGIN PAGE ================= -->
-  <div id="loginPage" class="auth-page min-h-screen bg-white flex flex-col px-3 sm:px-6 py-0 sm:py-4 overflow-y-auto">
+  <div id="loginPage" class="auth-page min-h-[100dvh] lg:min-h-screen bg-white flex flex-col px-3 sm:px-6 py-0 lg:py-4 overflow-y-auto">
     <div class="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-6 sm:gap-6 lg:gap-8 auth-layout">
       <!-- CARD FIRST ON MOBILE (TOP), RIGHT ON DESKTOP -->
       <div class="w-full lg:w-1/2 flex justify-center order-1 lg:order-2">
@@ -1567,7 +1547,7 @@
             "
           ></div>
 
-          <div class="relative z-10 flex flex-col flex-1 min-h-0 min-w-0 auth-card-content login-card-inner px-4 sm:px-6 pt-4 sm:pt-8 pb-2 sm:pb-6 lg:pt-14 lg:pb-10 text-white text-left justify-between sm:justify-center">
+          <div class="relative z-10 flex flex-col flex-1 min-h-0 min-w-0 auth-card-content login-card-inner px-4 sm:px-6 pt-4 sm:pt-8 pb-2 sm:pb-6 lg:pt-14 lg:pb-10 text-white text-left justify-start lg:justify-center">
             <!-- WELCOME (WB_005: centered on narrow screens) -->
             <div class="w-full flex justify-center flex-shrink-0 min-w-0">
             <h1 class="font-welcome-heading text-lg sm:text-xl md:text-2xl lg:text-3xl text-center font-semibold mb-2 sm:mb-4 lg:mb-7 break-words tracking-widest">

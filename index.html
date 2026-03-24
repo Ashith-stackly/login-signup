@@ -416,6 +416,8 @@
         --auth-safe-bottom: env(safe-area-inset-bottom, 0px);
         --auth-safe-left: env(safe-area-inset-left, 0px);
         --auth-safe-right: env(safe-area-inset-right, 0px);
+        position: fixed;
+        inset: 0;
         height: 100dvh;
         min-height: 100dvh;
         max-height: 100dvh;
@@ -424,8 +426,9 @@
         /* Remove white margins on left/right in mobile. */
         padding-left: 0 !important;
         padding-right: 0 !important;
-        overflow-y: hidden;
+        overflow-y: auto;
         overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
       }
       .auth-page .auth-layout {
         flex: 1 1 auto;
@@ -433,7 +436,7 @@
         flex-direction: column;
         height: 100%;
         min-height: 100%;
-        max-height: 100%;
+        max-height: none;
         gap: 0;
         max-width: 100%;
         justify-content: flex-start;
@@ -455,14 +458,12 @@
         padding-top: env(safe-area-inset-top, 0px);
         padding-bottom: env(safe-area-inset-bottom, 0px);
         min-height: 100%;
-        max-height: 100%;
+        max-height: none;
         display: flex;
         flex-direction: column;
         margin-top: 0;
         margin-bottom: 0;
-        overflow-x: hidden;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
+        overflow: hidden;
       }
       .auth-form-card .auth-card-content,
       .auth-form-card .signup-card-content {
@@ -491,8 +492,6 @@
         .auth-form-card {
           height: 100%;
           min-height: 100%;
-          max-height: 100%;
-          min-height: -webkit-fill-available;
         }
       }
     }

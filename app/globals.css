@@ -82,16 +82,8 @@ input[type="password"]::-ms-reveal {
     width: 100%;
   }
   .signup-card-content .signup-welcome-title {
-    display: inline-block;
-    width: auto;
-    max-width: none;
-    margin-left: auto;
-    margin-right: auto;
     text-align: center;
-    box-sizing: border-box;
-    padding-inline: 0;
-    /* Optical centering: wide letter spacing makes "WELCOME" appear slightly left. */
-    transform: translateX(0.14em);
+    transform: none;
   }
 }
 
@@ -105,9 +97,7 @@ input[type="password"]::-ms-reveal {
     letter-spacing: 0.12em;
   }
   .signup-card-content .signup-welcome-title {
-    width: auto !important;
-    max-width: none !important;
-    padding-inline: 0;
+    width: 100%;
   }
   .auth-card-content {
     padding-left: 0.75rem;
@@ -380,14 +370,7 @@ input[type="password"]::-ms-reveal {
 
   /* Signup: prevent WELCOME drift at 190–200% zoom */
   .signup-card-content .font-welcome-heading {
-    display: inline-block;
-    width: auto !important;
-    max-width: none !important;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    letter-spacing: 0.18em !important;
-    padding-inline: 0;
+    letter-spacing: inherit;
   }
 }
 

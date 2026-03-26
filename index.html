@@ -73,6 +73,42 @@
       text-shadow: 0 0 1px rgba(0,0,0,0.3);
     }
 
+    /* Planning header: nav buttons + active underline (matches app/planning) */
+    .planning-nav-btn {
+      border-bottom: 2px solid transparent;
+      padding-bottom: 0.125rem;
+      background: none;
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.8125rem; /* 13px; sm:text-sm in Tailwind on wrapper where used */
+      color: rgba(255, 255, 255, 0.9);
+    }
+    @media (min-width: 640px) {
+      .planning-nav-btn {
+        font-size: 0.875rem; /* 14px */
+      }
+    }
+    .planning-nav-btn:hover {
+      color: #fff;
+    }
+    .planning-nav-btn.planning-nav-active {
+      border-bottom-color: #f0e6d4;
+      color: #fff;
+      font-weight: 500;
+    }
+
+    .planning-billing-label--active {
+      font-weight: 700;
+      color: #1f3861;
+    }
+    .planning-billing-label:not(.planning-billing-label--active) {
+      font-weight: 400;
+      color: #63789b;
+    }
+    #planningBillingKnob {
+      transition: transform 0.2s ease;
+    }
+
     @media (max-width: 400px) {
       .font-welcome-heading {
         text-align: center;
@@ -779,6 +815,118 @@
   <script>
     const BACKEND_BASE_URL = "http://localhost:5000";
 
+    /** Shown until auth API provides the real name; optional override: localStorage.stacklyDisplayName */
+    var PLANNING_DISPLAY_USER_NAME = "Pentakota Srinivas";
+
+    function initPlanningHeader() {
+      var el = document.getElementById("planningDisplayUserName");
+      if (!el) return;
+      try {
+        var name = localStorage.getItem("stacklyDisplayName");
+        el.textContent = name && String(name).trim() ? String(name).trim() : PLANNING_DISPLAY_USER_NAME;
+      } catch (e) {
+        el.textContent = PLANNING_DISPLAY_USER_NAME;
+      }
+      setPlanningNavActive("billing");
+    }
+
+    function setPlanningNavActive(navId) {
+      ["workspace", "myWebsites", "templates", "domains", "billing"].forEach(function (id) {
+        var btn = document.getElementById("planningNav-" + id);
+        var mobileBtn = document.getElementById("planningMobile-" + id);
+        if (!btn) return;
+        if (id === navId) {
+          btn.classList.add("planning-nav-active");
+          btn.setAttribute("aria-current", "page");
+          if (mobileBtn) {
+            mobileBtn.classList.add("border-[#f0e6d4]", "bg-white/10", "text-white");
+            mobileBtn.classList.remove("border-white/20", "text-white/90");
+          }
+        } else {
+          btn.classList.remove("planning-nav-active");
+          btn.removeAttribute("aria-current");
+          if (mobileBtn) {
+            mobileBtn.classList.remove("border-[#f0e6d4]", "bg-white/10", "text-white");
+            mobileBtn.classList.add("border-white/20", "text-white/90");
+          }
+        }
+      });
+    }
+
+    function planningNavClick(navId) {
+      setPlanningNavActive(navId);
+      var mobileMenu = document.getElementById("planningMobileMenu");
+      var mobileBtn = document.getElementById("planningMobileMenuBtn");
+      if (mobileMenu) mobileMenu.classList.add("hidden");
+      if (mobileBtn) mobileBtn.setAttribute("aria-expanded", "false");
+      if (navId === "billing") {
+        var target = document.getElementById("planningBillingContent");
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    function togglePlanningMobileMenu(event) {
+      if (event) event.stopPropagation();
+      var menu = document.getElementById("planningMobileMenu");
+      var btn = document.getElementById("planningMobileMenuBtn");
+      if (!menu || !btn) return;
+      menu.classList.toggle("hidden");
+      var isOpen = !menu.classList.contains("hidden");
+      btn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    }
+
+    function togglePlanningProfileMenu(event) {
+      if (event) event.stopPropagation();
+      var menu = document.getElementById("planningProfileMenu");
+      var btn = document.getElementById("planningProfileToggle");
+      if (!menu || !btn) return;
+      menu.classList.toggle("hidden");
+      var isOpen = !menu.classList.contains("hidden");
+      btn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    }
+
+    document.addEventListener("click", function (e) {
+      var wrap = document.getElementById("planningProfileWrap");
+      var menu = document.getElementById("planningProfileMenu");
+      if (!wrap || !menu || menu.classList.contains("hidden")) return;
+      if (!wrap.contains(e.target)) {
+        menu.classList.add("hidden");
+        var btn = document.getElementById("planningProfileToggle");
+        if (btn) btn.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    document.addEventListener("click", function (e) {
+      var mobileWrap = document.getElementById("planningMobileWrap");
+      var mobileMenu = document.getElementById("planningMobileMenu");
+      if (!mobileWrap || !mobileMenu || mobileMenu.classList.contains("hidden")) return;
+      if (!mobileWrap.contains(e.target)) {
+        mobileMenu.classList.add("hidden");
+        var mobileBtn = document.getElementById("planningMobileMenuBtn");
+        if (mobileBtn) mobileBtn.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    function planningSetBilling(yearly) {
+      var sw = document.getElementById("planningBillingSwitch");
+      var knob = document.getElementById("planningBillingKnob");
+      var lm = document.getElementById("planningLabelMonthly");
+      var ly = document.getElementById("planningLabelYearly");
+      if (!sw || !knob || !lm || !ly) return;
+      sw.setAttribute("aria-checked", yearly ? "true" : "false");
+      knob.classList.toggle("translate-x-0", !yearly);
+      knob.classList.toggle("translate-x-6", yearly);
+      lm.classList.toggle("planning-billing-label--active", !yearly);
+      ly.classList.toggle("planning-billing-label--active", yearly);
+    }
+
+    function planningToggleBilling() {
+      var sw = document.getElementById("planningBillingSwitch");
+      if (!sw) return;
+      var yearly = sw.getAttribute("aria-checked") === "true";
+      planningSetBilling(!yearly);
+    }
+
     function updateMobilePlaceholders() {
       var loginEmail = document.getElementById("loginEmail");
       if (loginEmail) loginEmail.placeholder = "Email or Mobile number";
@@ -800,6 +948,7 @@
       // Keep page scroll available on desktop zoom (150-200%) to avoid clipped auth content.
       document.body.style.overflow = "";
       updateMobilePlaceholders();
+      if (page === "planning") initPlanningHeader();
     }
 
     function setupAuthPullToRefresh() {
@@ -1338,47 +1487,90 @@
   <!-- ================= PLANNING PAGE ================= -->
   <div id="planningPage" class="hidden min-h-screen bg-[#efefef] px-2 py-2 sm:px-4 sm:py-4">
     <nav class="w-full bg-[#06224C]">
-      <div class="mx-auto flex max-w-6xl items-center justify-between px-3 py-2 sm:px-6">
-        <div class="flex items-center gap-6">
-          <div class="flex h-7 w-[78px] items-center justify-center overflow-hidden rounded-[999px] bg-white sm:h-8 sm:w-[92px]">
-            <img src="./public/stackly-logo.webp" alt="Stackly logo" class="h-[16px] w-auto sm:h-[18px]" />
-      </div>
+      <div class="mx-auto flex max-w-6xl items-center gap-2 px-3 py-3 sm:gap-3 sm:px-6">
+        <div class="flex min-w-0 flex-shrink-0 items-center">
+          <div class="flex h-8 min-w-[92px] items-center justify-center overflow-hidden rounded-[50%] bg-white px-3 sm:h-9 sm:min-w-[104px]">
+            <img src="./public/stackly-logo.webp" alt="Stackly logo" class="h-[18px] w-auto sm:h-[20px]" />
+          </div>
+        </div>
 
-          <nav class="hidden items-center gap-8 text-[11px] text-white/90 md:flex">
-            <span>Workspace</span>
-            <span>My Websites</span>
-            <span>Templates</span>
-            <span>Domains</span>
-            <span>Billing</span>
+        <div class="hidden min-w-0 flex-1 md:flex md:items-center">
+          <nav class="flex w-full min-w-0 flex-wrap items-center justify-evenly gap-x-2 gap-y-2 text-[13px] text-white/90 sm:text-sm sm:gap-x-3" aria-label="Main">
+            <button type="button" id="planningNav-workspace" class="planning-nav-btn shrink-0" onclick="planningNavClick('workspace')">Workspace</button>
+            <button type="button" id="planningNav-myWebsites" class="planning-nav-btn shrink-0" onclick="planningNavClick('myWebsites')">My Websites</button>
+            <button type="button" id="planningNav-templates" class="planning-nav-btn shrink-0" onclick="planningNavClick('templates')">Templates</button>
+            <button type="button" id="planningNav-domains" class="planning-nav-btn shrink-0" onclick="planningNavClick('domains')">Domains</button>
+            <button type="button" id="planningNav-billing" class="planning-nav-btn planning-nav-active shrink-0" aria-current="page" onclick="planningNavClick('billing')">Billing</button>
           </nav>
         </div>
 
-        <div class="flex items-center gap-3">
-          <div class="hidden items-center gap-2 lg:flex">
-              <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white">
-                <img src="./public/logoplan.png" alt="Logo 1" class="h-4 w-4 object-contain" />
-              </span>
-              <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white">
-                <img src="./public/logoplan2.png" alt="Logo 2" class="h-4 w-4 object-contain" />
-              </span>
-              <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white">
-                <img src="./public/logoplan3.png" alt="Logo 3" class="h-4 w-4 object-contain" />
-              </span>
+        <div id="planningMobileWrap" class="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
+          <button
+            type="button"
+            id="planningMobileMenuBtn"
+            onclick="togglePlanningMobileMenu(event)"
+            class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/25 text-white md:hidden"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+          >
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            </svg>
+          </button>
+
+          <div class="flex items-center gap-1.5 md:hidden">
+            <button type="button" class="flex h-6 w-6 items-center justify-center rounded-full bg-white" aria-label="Open quick action 1">
+              <img src="./public/logoplan.png" alt="" class="h-4 w-4 object-contain" />
+            </button>
+            <button type="button" class="flex h-6 w-6 items-center justify-center rounded-full bg-white" aria-label="Open quick action 2">
+              <img src="./public/logoplan2.png" alt="" class="h-4 w-4 object-contain" />
+            </button>
+            <button type="button" class="flex h-6 w-6 items-center justify-center rounded-full bg-white" aria-label="Open quick action 3">
+              <img src="./public/logoplan3.png" alt="" class="h-4 w-4 object-contain" />
+            </button>
           </div>
 
           <div class="hidden items-center gap-2 lg:flex">
-            <img src="./public/photo.png" alt="Profile" class="h-7 w-7 rounded-full object-cover" />
-            <span class="text-[11px] text-white/80 whitespace-nowrap">Srinivas Penakota</span>
-            <svg width="10" height="10" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-              <path d="M3.5 5L6 7.5L8.5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.85" />
-            </svg>
+            <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white">
+              <img src="./public/logoplan.png" alt="" class="h-4 w-4 object-contain" />
+            </span>
+            <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white">
+              <img src="./public/logoplan2.png" alt="" class="h-4 w-4 object-contain" />
+            </span>
+            <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white">
+              <img src="./public/logoplan3.png" alt="" class="h-4 w-4 object-contain" />
+            </span>
           </div>
+
+          <div id="planningProfileWrap" class="relative">
+            <button type="button" id="planningProfileToggle" class="hidden items-center gap-2 lg:flex" aria-expanded="false" aria-haspopup="true" onclick="togglePlanningProfileMenu(event)">
+              <img src="./public/photo.png" alt="" class="h-7 w-7 rounded-full object-cover" />
+              <span id="planningDisplayUserName" class="max-w-[140px] truncate text-left text-[11px] text-white sm:max-w-[180px]">Pentakota Srinivas</span>
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="shrink-0 text-white/90">
+                <path d="M3.5 5L6 7.5L8.5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.85" />
+              </svg>
+            </button>
+            <div id="planningProfileMenu" class="absolute right-0 top-full z-50 mt-1 hidden min-w-[160px] rounded-md border border-gray-200 bg-white py-1 shadow-lg" role="menu">
+              <button type="button" class="block w-full px-3 py-2 text-left text-xs text-gray-800 hover:bg-gray-50" onclick="location.hash='login'; showPage('login'); document.getElementById('planningProfileMenu').classList.add('hidden');" role="menuitem">
+                Sign out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="planningMobileMenu" class="hidden border-t border-white/20 px-3 pb-3 pt-2 md:hidden">
+        <div class="grid grid-cols-2 gap-2">
+          <button type="button" onclick="planningNavClick('workspace')" class="rounded-md border border-white/20 px-2 py-2 text-left text-xs text-white/90" id="planningMobile-workspace">Workspace</button>
+          <button type="button" onclick="planningNavClick('myWebsites')" class="rounded-md border border-white/20 px-2 py-2 text-left text-xs text-white/90" id="planningMobile-myWebsites">My Websites</button>
+          <button type="button" onclick="planningNavClick('templates')" class="rounded-md border border-white/20 px-2 py-2 text-left text-xs text-white/90" id="planningMobile-templates">Templates</button>
+          <button type="button" onclick="planningNavClick('domains')" class="rounded-md border border-white/20 px-2 py-2 text-left text-xs text-white/90" id="planningMobile-domains">Domains</button>
+          <button type="button" onclick="planningNavClick('billing')" class="rounded-md border border-[#f0e6d4] bg-white/10 px-2 py-2 text-left text-xs text-white" id="planningMobile-billing">Billing</button>
         </div>
       </div>
     </nav>
 
     <div class="mx-auto max-w-6xl rounded-sm border border-[#dbe3ef] bg-white shadow-sm mt-4">
-      <section class="px-3 py-5 sm:px-8 sm:py-8">
+      <section id="planningBillingContent" class="scroll-mt-4 px-3 py-5 sm:px-8 sm:py-8">
         <div class="mx-auto mb-4 max-w-5xl rounded bg-gradient-to-r from-[#06224C] to-[#1A5BBC] px-4 py-2 text-center text-[11px] font-semibold text-white sm:text-xs">
           Upgrade Now: Get - 50% Off on Selected Plans
         </div>
@@ -1387,27 +1579,60 @@
           <h1 class="text-center text-3xl font-bold text-[#0b3268] sm:text-[44px] sm:leading-tight">Choose the Best Plan for You</h1>
           <p class="mt-2 text-center text-[11px] text-[#6d7f9d] sm:text-xs">Create your website for free and upgrade when you're ready.</p>
 
-          <div class="mt-3 text-center">
+          <div class="mt-3 flex justify-center">
             <button
               type="button"
               onclick="location.hash='login'; showPage('login')"
-              class="inline-flex items-center rounded-full bg-gradient-to-r from-[#06224C] to-[#1A5BBC] px-5 py-2 text-[11px] font-semibold text-white hover:opacity-90 sm:text-xs"
+              class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#06224C] to-[#1A5BBC] px-5 py-2.5 text-[11px] font-semibold text-white hover:opacity-90 sm:text-xs"
             >
-              Start Your Free Plan
+              <span>Start Your Free Plan</span>
+              <span class="flex h-5 w-5 shrink-0 items-center justify-center" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <circle cx="10" cy="10" r="8.25" stroke="white" stroke-width="1.2" fill="none" />
+                  <path d="M8 10h4M11.5 7l3 3-3 3" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                </svg>
+              </span>
             </button>
           </div>
 
-          <p class="mt-4 text-center text-[11px] font-semibold text-[#2d3f5d]">
-            What you get with every plan:
-          </p>
-          <div class="mt-2 flex flex-wrap items-center justify-center gap-x-7 gap-y-2 text-[10px] text-[#63789b] sm:text-[11px]">
-            <span>Custom Domain</span>
-            <span>Reliable web hosting</span>
-            <span>24/7 customer care</span>
+          <div class="mt-5 flex w-full flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center sm:mt-6 sm:justify-between sm:text-left">
+            <p class="w-full text-[11px] font-bold leading-snug text-[#1f3861] sm:w-auto sm:shrink-0">What you get with every plan:</p>
+            <span class="text-[10px] font-normal text-[#63789b] sm:text-[11px]">Custom Domain</span>
+            <span class="text-[10px] font-normal text-[#63789b] sm:text-[11px]">Reliable web hosting</span>
+            <span class="text-[10px] font-normal text-[#63789b] sm:text-[11px]">24/7 customer care</span>
           </div>
 
-          <div class="mt-4 text-center text-[11px] font-semibold text-[#1f3861]">
-            Bill Monthly <span class="mx-2 text-gray-400">◉</span> Bill Yearly
+          <div class="mt-5 flex flex-wrap items-center justify-center gap-3 sm:mt-6">
+            <button
+              type="button"
+              id="planningLabelMonthly"
+              class="planning-billing-label planning-billing-label--active text-[11px]"
+              onclick="planningSetBilling(false)"
+            >
+              Bill Monthly
+            </button>
+            <button
+              type="button"
+              id="planningBillingSwitch"
+              role="switch"
+              aria-checked="false"
+              aria-label="Toggle monthly or yearly billing"
+              onclick="planningToggleBilling()"
+              class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border border-[#94a3b8] bg-white px-0.5"
+            >
+              <span
+                id="planningBillingKnob"
+                class="pointer-events-none absolute left-0.5 top-0.5 h-4 w-4 translate-x-0 rounded-full bg-[#06224C] shadow-sm"
+              ></span>
+            </button>
+            <button
+              type="button"
+              id="planningLabelYearly"
+              class="planning-billing-label text-[11px]"
+              onclick="planningSetBilling(true)"
+            >
+              Bill Yearly
+            </button>
           </div>
 
           <div class="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">

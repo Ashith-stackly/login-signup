@@ -1835,16 +1835,16 @@
     </div>
   </div>
 
-  <!-- ================= FORGOT PASSWORD PAGE (matches uploaded design) ================= -->
-  <div id="forgotPage" class="hidden min-h-screen bg-white flex items-center justify-center px-4 sm:px-6 py-6">
+  <!-- ================= FORGOT PASSWORD PAGE (layout matches app/forgot-password) ================= -->
+  <div id="forgotPage" class="hidden min-h-screen bg-white flex items-center justify-center px-4 sm:px-6 py-6 relative">
     <div class="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-center gap-4 sm:gap-6 lg:gap-12 auth-layout">
       <!-- LEFT: Illustration -->
       <div class="auth-image-col w-full lg:w-1/2 flex items-center justify-center order-2 lg:order-1">
         <img src="public/password.webp" alt="Password reset illustration" class="auth-image w-[85%] sm:w-[80%] lg:w-[88%] max-w-[480px] object-contain" />
       </div>
-      <!-- RIGHT: Forgot password form card (design specs: gradient #234E70 → #282738 + shadow) -->
+      <!-- RIGHT: Forgot password form card (layout matches app; gradient kept for index) -->
       <div class="w-full lg:w-1/2 flex items-center justify-center order-1 lg:order-2">
-        <div class="relative overflow-hidden w-full max-w-[420px] rounded-xl px-8 sm:px-10 py-8 sm:py-10" style="background: linear-gradient(180deg, #4A76F3 0%, #2C4FAD 50%, #0A193F 100%); box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+        <div class="relative overflow-hidden w-full max-w-[420px] rounded-xl px-8 sm:px-10 py-8 sm:py-10" style="background: linear-gradient(180deg, #4A76F3 0%, #2C4FAD 50%, #0A193F 100%); box-shadow: 4px 4px 4px 0 rgba(0,0,0,0.25);">
           <h1 class="text-[20px] sm:text-[24px] font-bold text-center mb-3" style="color: #FFFFFF;">Forgot Your Password?</h1>
           <p class="text-center text-[13px] sm:text-[14px] mb-5 leading-relaxed" style="color: #FFFFFF;">Enter your email address or mobile number and we will send you instructions to reset your password.</p>
           <div class="flex flex-col items-center space-y-5">
@@ -1877,8 +1877,8 @@
     </div>
   </div>
 
-  <!-- ================= VERIFY EMAIL PAGE ================= -->
-  <div id="verifyEmailPage" class="hidden min-h-screen bg-white flex items-center justify-center px-4 sm:px-6 py-6">
+  <!-- ================= VERIFY EMAIL PAGE (layout matches app/verify-email) ================= -->
+  <div id="verifyEmailPage" class="hidden min-h-screen bg-white flex items-center justify-center px-4 sm:px-6 py-6 relative">
     <button type="button" onclick="showPage('forgot')" class="absolute left-4 top-4 text-2xl text-black" aria-label="Go back">
       ←
     </button>
@@ -1923,8 +1923,8 @@
     </div>
   </div>
 
-  <!-- ================= VERIFY MOBILE PAGE ================= -->
-  <div id="verifyMobilePage" class="hidden min-h-screen bg-white flex items-center justify-center px-4 sm:px-6 py-6">
+  <!-- ================= VERIFY MOBILE PAGE (layout matches app/verify-mobile) ================= -->
+  <div id="verifyMobilePage" class="hidden min-h-screen bg-white flex items-center justify-center px-4 sm:px-6 py-6 relative">
     <button type="button" onclick="showPage('forgot')" class="absolute left-4 top-4 text-2xl text-black" aria-label="Go back">
       ←
     </button>
@@ -1969,8 +1969,8 @@
     </div>
   </div>
 
-  <!-- ================= VERIFIED PAGE (tick.webp design) ================= -->
-  <div id="verifiedPage" class="hidden min-h-screen bg-white flex items-center justify-center px-4 sm:px-6 py-6">
+  <!-- ================= VERIFIED PAGE (layout matches app/verified) ================= -->
+  <div id="verifiedPage" class="hidden min-h-screen bg-white flex items-center justify-center px-4 sm:px-6 py-6 relative">
     <button type="button" onclick="location.hash='forgot'; showPage('forgot');" class="absolute left-4 top-4 text-2xl text-black" aria-label="Go back">
       ←
     </button>
@@ -1988,17 +1988,17 @@
     </div>
   </div>
 
-  <!-- ================= CREATE NEW PASSWORD PAGE (new.webp design) ================= -->
-  <div id="createNewPasswordPage" class="hidden min-h-screen bg-white flex items-center justify-center px-4 sm:px-6 py-6">
+  <!-- ================= CREATE NEW PASSWORD PAGE (layout matches app/create-new-password) ================= -->
+  <div id="createNewPasswordPage" class="hidden min-h-screen bg-white flex items-center justify-center px-4 sm:px-6 py-6 relative">
     <button type="button" onclick="location.hash='verified'; showPage('verified');" class="absolute left-4 top-4 text-2xl text-black z-10" aria-label="Go back">
       ←
     </button>
-    <div class="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-center gap-4 sm:gap-6 lg:gap-12">
-      <div class="w-full lg:w-1/2 flex items-center justify-center order-2 lg:order-1">
-        <img src="public/new.webp" alt="Create new password" class="w-[85%] sm:w-[80%] lg:w-[88%] max-w-[480px] object-contain" />
+    <div class="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-center gap-4 sm:gap-6 lg:gap-12 auth-layout">
+      <div class="auth-image-col w-full lg:w-1/2 flex items-center justify-center order-2 lg:order-1">
+        <img src="public/new.webp" alt="Create new password" class="auth-image w-[85%] sm:w-[80%] lg:w-[88%] max-w-[480px] object-contain" />
       </div>
       <div class="w-full lg:w-1/2 flex items-center justify-center order-1 lg:order-2">
-        <div class="relative overflow-hidden w-full max-w-[420px] rounded-xl px-8 sm:px-10 py-8 sm:py-10" style="background: linear-gradient(180deg, #4A76F3 0%, #2C4FAD 50%, #0A193F 100%); box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+        <div class="relative overflow-hidden w-full max-w-[420px] rounded-xl px-8 sm:px-10 py-8 sm:py-10" style="background: linear-gradient(180deg, #4A76F3 0%, #2C4FAD 50%, #0A193F 100%); box-shadow: 4px 4px 4px 0 rgba(0,0,0,0.25);">
           <h1 class="text-[20px] sm:text-[24px] font-bold text-center mb-6" style="color: #FFFFFF;">Create New Password</h1>
           <form onsubmit="handleUpdatePassword(); return false;" class="space-y-5">
             <div>
